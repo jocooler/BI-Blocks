@@ -11,26 +11,34 @@
 			margin:8px;
 			max-width:100%;
 		}
-		.extended {
+		.show-short .extended {
+			display:none;
+		}
+		.show-extended .short {
 			display:none;
 		}
 		.editHandle {
-			width:20px;
-			height:20px;
-			background-color:black;
-			position:absolute;
-			top:0;
-			right:0;
+			color: #ccc;
+			position: absolute;
+			top: 5px;
+			right: 25px;
+			z-index: 20;
+			cursor: pointer;
+			opacity:0;
+			display:none;
+			transition:opacity 300ms;
+		}
+		.brick:hover .editHandle {
+			display:block;
+			opacity:1;
 		}
 	</style>
   </head>
   
   <body>
 	<div class="container-fluid">
-		<h1>Important Datapoints</h1>
-		<hr />
 		<div class="jumbotron">
-			<h2 class="display-3">VTrans Projects</h2>
+			<h1 class="display-3">VTrans Projects</h1>
 			<p class="lead">This section discusses vital parts of our projects.</p>
 			<hr class="my-2">
 			<p>Projects are a key of what VTrans does. Ensuring they are on track is what we do. To see all project data, click the button below.</p>
@@ -40,107 +48,6 @@
 		</div>
 		
 		<div class="row">
-			<div class="col-sm-6 brick">
-				<div class="card"> 
-					<div class="card-block">
-						<h4 class="card-title">Ryegate Culvert</h4>
-						<hr />
-						<div class="card-text extended">
-							<img class="img-responsive img-inline"  src="images/ryegate.jpg"  alt="Generic placeholder image">
-
-						The Ryegate Culvert Project will replace the existing culvert carrying Manchester Brook under US 5 and the Washington County Railroad, which runs parallel I-91. The brook flows approximately 150 feet through the 50-foot high US 5 embankment and 185 feet through the 60-foot high Railroad embankment. The original culverts were constructed around 1930 and 1914, respectively, and are hydraulically deficient. The new culvert is being built along a slightly different alignment and consists of two separate structures: one for US 5 and another for the Railroad. The project maintains traffic using temporary bridges, a temporary earth retaining system and dewatering system, construction of a permanent cast-in-place concrete arch culvert, and a new stream channel to meet hydraulic and Aquatic Organism Passage (AOP) requirements. Construction began in 2015 and is expected to be completed in summer 2016.
-						</div>
-						<div class="card-text short">
-							<img class="img-responsive img-inline"  src="images/ryegate.jpg"  alt="Generic placeholder image">
-
-						The Ryegate Culvert Project will replace the existing culvert carrying Manchester Brook under US 5 and the Washington County Railroad. The Railroad embankment 185 feet long and 60 feet high. Construction is expected to be completed in summer 2016.
-						</div>
-					</div>
-					<p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-				</div>
-			</div>
-			<div class="col-sm-3 brick">
-				<div class="card">
-				  
-				  <div class="card-block">
-					<style>
-
-					.chart rect {
-					  fill: steelblue;
-					}
-
-					</style>
-					<svg class="chart" width="100%" height="120">
-					  <g transform="translate(0,0)">
-						<rect width="12%" height="19"></rect>
-					  </g>
-					  <g transform="translate(0,20)">
-						<rect width="19%" height="19"></rect>
-					  </g>
-					  <g transform="translate(0,40)">
-						<rect width="36%" height="19"></rect>
-					  </g>
-					  <g transform="translate(0,60)">
-						<rect width="38%" height="19"></rect>
-					  </g>
-					  <g transform="translate(0,80)">
-						<rect width="50%" height="19"></rect>
-					  </g>
-					  <g transform="translate(0,100)">
-						<rect width="100%" height="19"></rect>
-					  </g>
-					</svg>
-					<h4 class="card-title">Number of Projects Increasing over Time</h4>
-					<p class="card-text">The number of projects undertaken by VTrans is continually rising. VTrans becoming more and more and more productive and accomplishing more each season.</p>
-					<p class="card-text"><small class="text-muted">Last updated 12/15/2016</small></p>
-					<p class="lead">
-						<a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-					</p>
-				  </div>
-				</div>
-			</div>
-			
-			<div class="col-sm-3">
-				<div class="card">
-				  <div class="card-block extended">
-					<h4 class="card-title">Revenues FY 2015 (fees, taxes, and permits)</h4>
-					<p class="card-text">The Department of Motor Vehicles (DMV) is responsible for issuing driver licenses, permits, motor vehicle registrations (including snowmobile and motorboat registrations), driver license suspensions and reinstatements, enforcement of motor-vehiclerelated laws, and collecting motor fuel revenue for the state of Vermont. The department also manages several safety programs, including vehicle inspections, motor carrier safety, school bus safety and those related to motorcycle training. The Vermont DMV serves a resident population of over 626,000, as well as a significant number of nonresidents.</p>
-					<table>
-					<tr><td>License Fees 							</td><td>$9,171,789.07   </td></tr>
-					<tr><td>Registration Fees 						</td><td>$53,247,346.19  </td></tr>
-					<tr><td>Gas Tax and Clean Up ($0.121/gal.) 		</td><td>$40,655,867.48  </td></tr>
-					<tr><td>2013 Motor Fuel Assessment Fee 			</td><td>$38,975,362.62  </td></tr>
-					<tr><td>Gas Infrastructure Assessment Fee 		</td><td>$17,237,352.02  </td></tr>
-					<tr><td>Sales Tax (6%) 							</td><td>$1,192,688.73   </td></tr>
-					<tr><td>Purchase and Use Tax (6%) 				</td><td>$68,458,579.12  </td></tr>
-					<tr><td>Diesel Tax ($0.28/gal.) 				</td><td>$18,142,769.01  </td></tr>
-					<tr><td>Diesel Infrastructure Assessment Fee 	</td><td>$1,877,279.02   </td></tr>
-					<tr><td>Trucks up to 6,099 lbs. 				</td><td>$15,688,139.44  </td></tr>
-					<tr><td>Trucks up to 25,999 lbs. 				</td><td>$7,808,734.75   </td></tr>
-					<tr><td>IRP from other states 					</td><td>$186,227.26     </td></tr>
-					<tr><td>IRP In-State 							</td><td>$4,593,822.46   </td></tr>
-					<tr><td>Clean Air Fund 							</td><td>$616,826.50     </td></tr>
-					<tr><td>Conservation Plates 					</td><td>$170,645.00     </td></tr>
-					<tr><td>IFTA from other states 					</td><td>$1,258,976.47   </td></tr>
-					<tr><td>IFTA Infrastructure Assessment 			</td><td>$209,540.86     </td></tr>
-					<tr><td>Title Fees 								</td><td>$5,833,731.81   </td></tr>
-					<tr><td>Inspection Fees 						</td><td>$2,927,155.23   </td></tr>
-					<tr><td>Driving Records 						</td><td>$2,356,948.00   </td></tr>
-					<tr><td>Oversize Permits 						</td><td>$2,944,803.40   </td></tr>
-					<tr><td>Miscellaneous 							</td><td>$15,019,038.12  </td></tr>
-					<tr><th>Total 									</th><th>$308,573,622.56 </th></tr>
-					</table>
-					<p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-				  </div>
-				  <div class="card-block short">
-					<h4 class="card-title">Revenues FY 2015 (fees, taxes, and permits)</h4>
-					<p class="card-text">The Vermont Department of Motor Vehicles (DMV) serves a resident population of over 626,000, as well as a significant number of nonresidents.</p>
-					<p class="card-text lead">Total Revenue: $308,573,622.56</p>
-					
-					<p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-				  </div>
-				</div>
-			</div>
 		</div>
 
 	</div>
@@ -162,7 +69,10 @@
 				options = arguments[1];
 		}
 		if (!options) options = {size: 6};
-		var $html = $(Mustache.render('<div class="col-md-{{options.size}} brick"><div class="card"><div class="card-block">{{{content}}}</div></div></div>', {content: content, options:options}));
+		options.show = "show-short";
+		
+		content = Mustache.render(content, options);
+		var $html = $(Mustache.render('<div class="brick col-md-{{options.size}} {{options.show}}"><div class="card"><div class="card-block">{{{content}}}</div></div></div>', {content: content, options:options}));
 		$(row).append($html);
 		attachEditorListener($html);
 	}
@@ -172,12 +82,24 @@
 	}
 	
 	function attachEditorListener($el) {
-		$handle = $('<div class="editHandle">');
+
+		$handle = $('<div class="editHandle">edit</div>');
 		$el.prepend($handle);
 		$handle.click(function() {
-			$el[0].className = 'col-md-4 brick';
+			displayMenu($el);
 		});
 	}
+	
+	function displayMenu($el) {
+		console.log($el);
+	}
+	$.get('http://192.168.11.89/api/v2/legos/_table/blocks?api_key=d1b885b8d202ab320717b54d9265e360db151e69be811f38da2f24fdd09333a5', null, function(data) {
+		$.each(data.resource, function (i, v) {
+			createBrick(v.template, {name: v.name, short: v.short, extended: v.extended, size: 6});
+		});
+	});
+
+						
 	</script>
   </body>
 </html>
