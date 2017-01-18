@@ -1,0 +1,28 @@
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script src="scripts/promise.js"></script>
+<div id="main"></div>
+<script>
+var urls = [
+	'https://vtransapi.aot.state.vt.us/api/v2/edh/_table/closures?filter=duration>0&api_key=d1b885b8d202ab320717b54d9265e360db151e69be811f38da2f24fdd09333a5',
+	'https://vtransapi.aot.state.vt.us/api/v2/edh/_table/closures?filter=duration=0&api_key=d1b885b8d202ab320717b54d9265e360db151e69be811f38da2f24fdd09333a5'
+	
+],
+	promises = [];
+
+for (var i = 0; i<urls.length; i++) {
+	var u = urls[i];
+	promises.push(new Promise(function(resolve, reject) {
+		$.get(u, function(d) {
+			resolve(d);
+		}).fail(function(e) {reject(e)});
+	}));
+}
+
+Promise.all(promises).then(function (data) {
+	//success!
+	$('#main').html(JSON.stringify(data));
+}).catch(function (e) {
+	//failed.
+	$('#main').html(JSON.stringify(e));
+});
+</script>
