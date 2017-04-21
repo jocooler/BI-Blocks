@@ -31,10 +31,13 @@ createBrick(Mustache.render(template, {
 </div>
 
 <script>
-function init{{blockid}} () {
-	var urls = {{{url}}},
-		promises = [];
+var attachments = {
 
+init: function () {
+	var urls = {{#url}} {{{url}}} {{/url}} {{^url}} false {{/url}},
+		promises = [],
+		self = this;
+	if (!urls) return false;
 	$.each(urls, function (k, v) {
 		promises.push(new Promise(function(resolve, reject) {
 			$.get(v, function(d) {
@@ -53,14 +56,13 @@ function init{{blockid}} () {
 		$.each(data, function (i, v) { // make the complete dataset in the form of {name1: data, name2: data, name3: data}
 			ret[v.name] = v.data;
 		});
-		drawChart(ret);
+		self.drawChart(ret);
 	}).catch(function (e) {
 		//failed.
 		console.log(e);
 	});
-}
-
-function drawChart(raw) {
+},
+drawChart: function (raw) {
 	var data = [];
 	$.each(raw, function (k, v) {
 		var o = [k];
@@ -91,8 +93,10 @@ function drawChart(raw) {
 	}); 
 	$('#block{{blockid}} .chart').data('c3-chart', chart); 
 }
+}
 
-init{{blockid}}();
+$('#block{{blockid}}').data('block', attachments);
+
 </script>
 <!--
 $.get('http://vtransdream.vtransweb.aot.state.vt.us/api/v2/edh/_table/closures?filter=duration>0&api_key=d1b885b8d202ab320717b54d9265e360db151e69be811f38da2f24fdd09333a5', function (data) { 

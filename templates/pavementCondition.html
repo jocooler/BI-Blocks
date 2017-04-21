@@ -1,0 +1,136 @@
+<h4>{{title}}</h4> 
+<hr /> 
+<div class="card-text" id="block{{blockid}}"> 
+	<div class="row"> 
+		<div class="chart">
+		</div>
+	</div> 
+	<p class="card-text short">{{short}}</p> 
+	<p class="card-text extended">{{{extended}}}</p> 
+</div> 
+</div>
+<div class="card-footer"> 
+<small class="text-muted">{{updated}}</small> 
+</div> 
+<style>
+.label-200 text {
+    font-size: 18px;
+    fill: #000;
+}
+.label-200 line {
+    stroke: #000;
+}
+.c3-chart-text .c3-text {
+	fill: black!important;
+	transform: translateY(12px);
+}
+.c3-chart-text .c3-text:nth-last-of-type(1) {
+	transform: translate(-5px, 13px);
+}
+
+.c3-chart-text .c3-text:nth-of-type(1) {
+	transform: translate(5px, 13px);
+}
+
+.c3-area {
+	opacity:0.5 !important;
+}
+</style>
+<script> 
+var yr = new Date().getFullYear() - 10;
+ var attachments = {
+    init: function() {
+		var data = [
+				['Very Poor'],
+				['Poor'],
+				['Fair'],
+				['Good'],
+				['x']
+			],
+			legend = [],
+			self = this;
+			
+		$.get('https://vtransapi.aot.state.vt.us/api/v2/edh_assets/_table/gen.pavementmetrics?fields=PercentVeryPoor,PercentPoor,PercentFair,PercentGood,MetricYear&filter=(PercentFair IS NOT NULL) AND (MetricYear >= ' + yr + ' )&order=MetricYear%20ASC&api_key=d1b885b8d202ab320717b54d9265e360db151e69be811f38da2f24fdd09333a5', function (d) {
+		//$.get('https://vtransapi.aot.state.vt.us/api/v2/edh_assets/_table/gen.pavementmetrics?fields=PercentVeryPoor,PercentPoor,PercentFair,PercentGood,MetricYear&filter=(PercentFair IS NOT NULL)&api_key=d1b885b8d202ab320717b54d9265e360db151e69be811f38da2f24fdd09333a5', function (d) {
+			 $.each(d.resource, function (i, year) {
+				data[0].push(year.PercentVeryPoor);
+				data[1].push(year.PercentPoor);
+				data[2].push(year.PercentFair);
+				data[3].push(year.PercentGood);
+				data[4].push(year.MetricYear + '-01-01');
+				legend.push(year.MetricYear);
+			 });
+			 self.drawChart(data, legend);
+			 console.log(data[4]);
+		});
+
+    },
+    drawChart: function(data, legend) {
+        var chart = c3.generate({
+			padding: {
+				right:5,
+			},
+            data: {
+				x: 'x',
+                columns: data,
+                groups: [['Very Poor', 'Poor', 'Fair', 'Good']],
+				order: null,
+				//type: 'area-spline',
+				type: 'area',
+				//type: 'bar',
+				labels: {
+					format: {
+						'Very Poor': d3.format('%'),
+						'Poor': d3.format('%'),
+						'Fair': d3.format('%'),
+						'Good': d3.format('%'),
+					}
+				},
+				colors: {
+					'Very Poor': '#7c3094',
+					'Poor': '#c2a5cf',
+					'Fair': '#a6dca0',
+					'Good': '#008737'
+				}
+            },
+            bar: {
+                width: {
+                    ratio: 0.5
+                }
+            },
+            axis: {
+                x: {
+                    type: 'timeseries',
+					
+					//categories: legend,
+					tick: {
+						format: '%Y',
+						rotate: 75,
+						multiline: false
+					},
+					//min: new Date(yr) - 4 * 30 * 24 * 60 * 60 * 1000 ,// -4 months
+					//max: yr + 9 + '-04-01'
+                },
+                y: {
+                    show: false
+                }
+            },
+			tooltip: {
+				format: {
+					value: d3.format('%')
+				}
+			},
+			grid: {
+				y: {
+					lines: [
+						{value: 0.25, text: 'Performance Goal', class: 'label-200'}
+					]
+				}
+			},
+            bindto: '#block{{blockid}} .chart'
+        });
+        $('#block{{blockid}} .chart').data('c3-chart', chart);
+    }
+};
+$('#block{{blockid}}').data('block', attachments);
+ </script>
