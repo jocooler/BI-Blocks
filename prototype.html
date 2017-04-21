@@ -210,7 +210,7 @@
 		};
 	}
 
-	$.get('http://192.168.11.89/api/v2/legos/_table/blocks?api_key=d1b885b8d202ab320717b54d9265e360db151e69be811f38da2f24fdd09333a5', null, function(data) {
+	$.get('http://vtransapi.aot.state.vt.us/api/v2/legos/_table/blocks?api_key=d1b885b8d202ab320717b54d9265e360db151e69be811f38da2f24fdd09333a5', null, function(data) {
 		$.each(data.resource, function (i, v) {
 			createBrick(v.template, {name: v.name, short: v.short, extended: v.extended, size: 6});
 		});
