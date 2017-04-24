@@ -52,11 +52,11 @@ Templates
 
 So far, these are the available templates.
 
-1. Frame: PowerBI, chart server, maps, other framed sources http://www.aot.state.vt.us/documents/lego-templates/frame.html
+1. Frame: PowerBI, chart server, maps, other framed sources http://www.aot.state.vt.us/legos/display/frame.html
 * Query should be the full URL to the resource. If you're using the chart server, see the documentation there about building the URL.
-2. Image: for displaying static images http://www.aot.state.vt.us/documents/lego-templates/image.html
+2. Image: for displaying static images http://www.aot.state.vt.us/legos/display/image.html
 * Query should be the URL to the image.
-3. Image with Link: For static images with a link instead of a learn more. http://www.aot.state.vt.us/documents/lego-templates/image-link.html
+3. Image with Link: For static images with a link instead of a learn more. http://www.aot.state.vt.us/legos/display/image-link.html
 * Query is the URL for the image, Extended is the target link. Link opens in a new tab.
 
 If a KPI requires data processing on the client machine, you can create a new template for it. The reason for this is that passing javascript to the client via URL or POST data is fundamentally insecure, so creating a new template is the only choice here. 
