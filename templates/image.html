@@ -1,0 +1,31 @@
+<!--
+var blockid = 100;
+var template = $.get('templates/generic.html', function (r) {
+template = r;
+createBrick(Mustache.render(template, {
+	title: "Demo Scatter Block",
+	blockid: blockid++,
+	short: "This is how a block works.",
+	extended: "A block works in this wise: some stuff happens and then other stuff happens.",
+	query: "http://www.aot.state.vt.us/files/some_img.jpg"
+	type: "pie",
+	updated: "Last modified just now."
+}), {size:5});
+});
+-->
+<h4>{{title}}</h4>
+<hr />
+<div class="card-text" id="block{{blockid}}">
+	<div class="row">
+		<img src="{{query}}"/>
+	</div>
+	<p class="card-text short">{{short}}</p>
+	<p class="card-text extended">{{{extended}}}</p>
+</div>
+</div> 
+<div class="card-footer">
+  {{#tags}}
+	<small class="text-muted">{{.}}</small>
+  {{/tags}}
+</div>
+</script>

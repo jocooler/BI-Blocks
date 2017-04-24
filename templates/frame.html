@@ -1,0 +1,31 @@
+<!--
+var blockid = 100;
+var template = $.get('templates/generic.html', function (r) {
+template = r;
+createBrick(Mustache.render(template, {
+	title: "Demo Scatter Block",
+	blockid: blockid++,
+	short: "This is how a block works.",
+	extended: "A block works in this wise: some stuff happens and then other stuff happens.",
+	query: "http://www.aot.state.vt.us/chart-server/charts/line?values=[%22Duration%22]&legend=CloseDate&data=https%3A%2F%2Fvtransapi.aot.state.vt.us%2Fapi%2Fv2%2Fedh%2F_table%2Fclosures%3F%26filter%3Dduration%3C100%26api_key%3Dd1b885b8d202ab320717b54d9265e360db151e69be811f38da2f24fdd09333a5"
+	type: "pie",
+	updated: "Last modified just now."
+}), {size:5});
+});
+-->
+<h4>{{title}}</h4>
+<hr />
+<div class="card-text" id="block{{blockid}}">
+	<div class="row">
+		<iframe src="{{query}}"></iframe>
+	</div>
+	<p class="card-text short">{{short}}</p>
+	<p class="card-text extended">{{{extended}}}</p>
+</div>
+</div> 
+<div class="card-footer">
+  {{#tags}}
+	<small class="text-muted">{{.}}</small>
+  {{/tags}}
+</div>
+</script>
