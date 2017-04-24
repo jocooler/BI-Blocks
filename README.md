@@ -9,6 +9,8 @@ Displaying
 1. Put the code in demo.html into the placeholder within your page where you'd like the BI Legos to be built. 
 2. Update the view name (`var view`) with the view you're interested in displaying.
 
+[demo](http://jocooler.github.io/BI-Blocks/display/demo.html)
+
 Building
 =============
 This is a big TODO. At the moment use the forms in the DreamFactory admin.
