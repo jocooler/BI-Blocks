@@ -28,7 +28,7 @@ function getView(name, callback) {
 }
 
 function createBrick(brick) {
-	var firstNumber = /(\d+)/, // finds the first number.
+	var firstNumber = /(\d+)/, // finds the first number, with no spaces, letters, etc.
 		size = parseInt(firstNumber.exec(brick.className)[1]); //TODO different screen sizes?
 
 	if (size + columns > 12) {
