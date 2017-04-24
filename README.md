@@ -9,7 +9,7 @@ Displaying
 1. Put the code in demo.html into the placeholder within your page where you'd like the BI Legos to be built. 
 2. Update the view name (`var view`) with the view you're interested in displaying.
 
-[demo](http://jocooler.github.io/BI-Blocks/display/demo.html)
+[demo](http://jocooler.github.io/BI-Blocks/display/demo.html), [demo on local server](http://www.aot.state.vt.us/legos/display/demo.html)
 
 Building
 =============
