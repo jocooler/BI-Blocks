@@ -1,4 +1,4 @@
-##BI Legos##
+##[BI Legos](https://jocooler.github.io/BI-Blocks/)##
 =============
 A modular, reuseable, customizable approach to Business Intelligence under development for VTrans.
 
