@@ -56,4 +56,7 @@ Self-service Widgets
 * Template Validator
 * Template Data Connector
 
+
+https://vtransapi.aot.state.vt.us/api/v2/legos/_table/views?fields=*&related=*&filter=view%3DDemo%20View%201
+
 (C) 2016 SoV VTrans, MIT Licensed
