@@ -48,10 +48,6 @@ function fillBrick(brick, data, template) {
 	$('.card', $(brick)).append($html);
 }
 
-function createRow() {
-	$('body .container-fluid').append('<div class="row">');
-}
-
 $(document).ready(function() {
 	getView(view, function(data) {
 		var $brick = createBrick(data);
