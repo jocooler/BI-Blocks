@@ -27,7 +27,7 @@ function getView(name, callback) {
 	});
 }
 
-function createBrick(template, brick, attachmentPoint) {
+function createBrick(brick) {
 	var firstNumber = /(\d+)/, // finds the first number.
 		size = parseInt(firstNumber.exec(brick.className)[1]); //TODO different screen sizes?
 
@@ -36,15 +36,16 @@ function createBrick(template, brick, attachmentPoint) {
 		columns = 0;
 	}
 	
-	if (!attachmentPoint) {
-		var attachmentPoint = 'body .container-fluid.bricks>.row:last-of-type';
-	}
+	var $html = $(Mustache.render('<div class="brick {{className}}" data-tags="{{#tags}}{{.}} {{/tags}}"><div class="card"></div></div>', brick));
+	$('body .container-fluid.bricks>.row:last-of-type').append($html);
 	
-	var $html = $(Mustache.render(template, brick));
-	$(attachmentPoint).append($html);
-	columns += size; // need to parse this out of sizes and consider larger screens maybe.
-	
-	
+	columns += size;
+	return $html;
+}
+
+function fillBrick(brick, data, template) {
+	var $html = $(Mustache.render(template, data));
+	$('.card', $(brick)).append($html);
 }
 
 function createRow() {
@@ -52,9 +53,10 @@ function createRow() {
 }
 
 $(document).ready(function() {
-	getView(view, function(block) { // THIS IS WHAT NEEDS TO CHANGE TODO
-		$.get(block.template, function (template) {
-			createBrick(template, block);
+	getView(view, function(data) {
+		var $brick = createBrick(data);
+		$.get(data.template, function (template) {
+			fillBrick($brick, data, template);
 		});
 	});
 });	
