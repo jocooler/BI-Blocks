@@ -2,7 +2,9 @@
 var columns = 0,
 	target = '',
 	API_KEY = 'd1b885b8d202ab320717b54d9265e360db151e69be811f38da2f24fdd09333a5',
-	VTRANS_API = 'https://vtransapi.aot.state.vt.us/api/v2/';
+	VTRANS_API = 'https://vtransapi.aot.state.vt.us/api/v2/',
+	searchIndex=[],
+	tags = [];
 
 function getView(name, callback) {
 	$.get(VTRANS_API + "legos/_table/views?fields=*&related=*&order=layout_order asc&filter=view%3D" + name + "&api_key=" + API_KEY, function (response) {
@@ -46,6 +48,39 @@ function createBrick(brick) {
 function fillBrick(brick, data, template) {
 	var $html = $(Mustache.render(template, data));
 	$('.card', $(brick)).append($html);
+	prepSearch(); // this should potentially be optimized. Maybe promisify it?
+}
+
+function prepSearch() {
+	searchIndex = [];
+	tags = [];
+	$('.brick').each(function (i, v) {
+		searchIndex[i] = $('.short:not(".btn")', v).text().toLowerCase();
+		searchIndex[i] += " " + $('.extended:not(".btn")', v).text().toLowerCase();
+		searchIndex[i] += " " + $('h4', v).text().toLowerCase();
+		
+		$('.brick-tag', v).each(function(j, v) { 
+			searchIndex[i] += " " + $(v).text().toLowerCase(); 
+			tags[i] += " " + $(v).text().toLowerCase(); 
+		});
+	});
+}
+
+function search(term, tags) {
+	var searchLocation;
+	if (tags) {
+		searchLocation = tags;
+	} else {
+		searchLocation = searchIndex;
+	}
+	$.each(searchLocation, function (i, content) {
+		if (content.indexOf(term) < 0) {
+			$('.brick').eq(i).hide("fast");
+		} else {
+			$('.brick').eq(i).show("fast");
+		}
+	});
+	
 }
 
 $(document).ready(function() {
