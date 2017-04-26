@@ -48,10 +48,10 @@ function createBrick(brick) {
 function fillBrick(brick, data, template) {
 	var $html = $(Mustache.render(template, data));
 	$('.card', $(brick)).append($html);
-	prepSearch(); // this should potentially be optimized. Maybe promisify it?
+	prepSearch();
 }
 
-function prepSearch() {
+function prepSearch() { // this takes 1ms/2kb on my machine, so performance should be fine.
 	searchIndex = [];
 	tags = [];
 	$('.brick').each(function (i, v) {
