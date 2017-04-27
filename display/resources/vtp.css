@@ -7,3 +7,39 @@
 /*anchor buttons needed to be restyled*/
 .bi-wrapper a.btn-primary {color: #fff !important; background-color: #325D88 !important; border-color: #325D88 !important; text-decoration:none !important;}
 .bi-wrapper a.btn-primary:hover {color: #fff !important; background-color:#244463 !important;}
+
+/* brick styles */
+
+.show-short .extended {
+	display:none;
+}
+.show-extended .short {
+	display:none;
+}
+.show-nano .short, .show-nano .extended {
+	display:none;
+}
+.show-extended {
+	flex: 0 0 100%!important;
+	max-width: 100% !important;
+}
+.show-short iframe, iframe {
+	width:100%;
+	height:300px;
+	display:block;
+	border:0px;
+}
+.show-extended iframe {
+	height:500px;
+}
+.brick {
+	transition: width 300ms, height 300ms;
+}
+.btn-primary {
+	float:right;
+}
+
+/* brick cards need to be full height */
+.brick .card {
+	height:100%;
+}
