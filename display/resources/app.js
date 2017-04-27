@@ -2,7 +2,9 @@
 var columns = 0,
 	target = '',
 	API_KEY = 'd1b885b8d202ab320717b54d9265e360db151e69be811f38da2f24fdd09333a5',
-	VTRANS_API = 'https://vtransapi.aot.state.vt.us/api/v2/';
+	VTRANS_API = 'https://vtransapi.aot.state.vt.us/api/v2/',
+    tagIcons = ["chart","map","data"],
+    iconPath = "http://www.aot.state.vt.us/legos/display/resources/icons/";
 
 function getView(name, callback) {
 	$.get(VTRANS_API + "legos/_table/views?fields=*&related=*&order=layout_order asc&filter=view%3D" + name + "&api_key=" + API_KEY, function (response) {
@@ -16,11 +18,16 @@ function getView(name, callback) {
 				short: r.blocks.short,
 				extended: r.blocks.extended,
 				tags: [], 
+                icons: [],
 				blockId: 'block' + Math.random().toString().substring(4) + "-" + Math.random().toString().substring(3)
 			};
 			
-			$.each(r.tags, function (i, tag) {
-				block.tags.push(tag.tag);
+			$.each(r.tags, function (i, tag) {				            
+                if (tagIcons.indexOf(tag.tag) > -1){                 
+                    block.icons.push('<img class="v-tag-icon" src="' + iconPath + tag.tag + '.png" alt="' + tag.tag + '"/>');                  
+                }else{
+                    block.tags.push(tag.tag); 
+                }
 			});
 			callback(block);
 		});
@@ -51,7 +58,7 @@ function fillBrick(brick, data, template) {
 $(document).ready(function() {
 	getView(view, function(data) {
 		var $brick = createBrick(data);
-		$.get(data.template, function (template) {
+		$.get(data.template + "?12", function (template) {
 			fillBrick($brick, data, template);
 		});
 	});
