@@ -61,3 +61,10 @@
     font-weight: bold;
     color: #cacaca;
 }
+
+.tags .btn {
+	margin:10px 5px;
+}
+.tagWrap {
+	margin: 0 auto;
+}
