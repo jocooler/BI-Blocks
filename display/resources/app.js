@@ -61,12 +61,13 @@ function fillBrick(brick, data, template) {
 	prepSearch();
 }
 
-function prepSearch() { // this takes 1ms/2kb on my machine, so performance should be fine.
+function prepSearch() {
 	searchIndex = [];
 	tags = [];
 	$('.brick').each(function (i, v) {
 		searchIndex[i] = $('.short:not(".btn")', v).text().toLowerCase();
 		searchIndex[i] += " " + $('.extended:not(".btn")', v).text().toLowerCase();
+		searchIndex[i] += " " + $(extended[$('.card-text', brick')[0].id]).text().toLowerCase();
 		searchIndex[i] += " " + $('h4', v).text().toLowerCase();
 		
 		$('.brick-tag', v).each(function(j, v) { 
