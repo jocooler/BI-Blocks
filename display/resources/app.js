@@ -110,12 +110,19 @@ $(document).ready(function() {
 		});
 	});
 	$('#brickSearch').keyup(function() {
-		$('.tags .btn').removeClass('active');
+		$('.tags .btn').removeClass('btn-primary');
+		$('.tags .btn').addClass('btn-info');
 		search($(this).val());
 	});
 	$('.tags .btn').click(function () {
-		$('.tags .btn').removeClass('active');
-		$('this').addClass('active');
-		search($(this).text(), true);
+		$('.tags .btn:not(".clear")').removeClass('btn-info');
+		$(this + ':not(".clear")').addClass('btn-primary');
+		if ($(this).text() !== 'Clear Search') {
+			search($(this).text(), true);
+		} else {
+			$('#brickSearch').val('');
+			search('');
+		}
+		
 	});
 });	
