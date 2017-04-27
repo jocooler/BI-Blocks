@@ -19,26 +19,3 @@
 	{{{.}}}
   {{/icons}}
 </div>
-
-<script>
-function showExtended(el) {
-	var $el = $(el).parents('.brick');
-	$el.removeClass('show-nano').removeClass('show-short').addClass('show-extended');
-	setTimeout(function () {
-		$('html, body').animate({
-			scrollTop: $el.offset().top
-		}, 250);
-	},
-	300);
-}
-
-function showShort(el) {
-	var $el = $(el).parents('.brick');
-	$el.removeClass('show-nano').addClass('show-short').removeClass('show-extended');
-}
-
-function showNano(el) {
-	var $el = $(el).parents('.brick');
-	$el.addClass('show-nano').removeClass('show-short').removeClass('show-extended');
-}
-</script>
