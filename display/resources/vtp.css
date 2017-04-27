@@ -39,7 +39,8 @@
 	float:right;
 }
 
-/* brick cards need to be full height */
+/* brick cards need to be full height and have some space below when they're expanded */
 .brick .card {
 	height:100%;
+	margin-bottom:15px;
 }
