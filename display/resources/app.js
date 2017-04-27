@@ -110,9 +110,12 @@ $(document).ready(function() {
 		});
 	});
 	$('#brickSearch').keyup(function() {
+		$('.tags .btn').removeClass('active');
 		search($(this).val());
 	});
 	$('.tags .btn').click(function () {
+		$('.tags .btn').removeClass('active');
+		$('this').addClass('active');
 		search($(this).text(), true);
 	});
 });	
