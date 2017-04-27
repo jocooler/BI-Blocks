@@ -5,7 +5,7 @@ var columns = 0,
 	VTRANS_API = 'https://vtransapi.aot.state.vt.us/api/v2/',
 	searchIndex=[],
 	tags = [],
-	tagIcons = ["chart","map","data"],
+	tagIcons = {chart:"pie-chart", map:"map",data:"database"},
     iconPath = "http://www.aot.state.vt.us/legos/display/resources/icons/";
 
 function getView(name, callback) {
@@ -25,8 +25,8 @@ function getView(name, callback) {
 			};
 			
 			$.each(r.tags, function (i, tag) {				            
-                if (tagIcons.indexOf(tag.tag) > -1){                 
-                    block.icons.push('<img class="v-tag-icon" src="' + iconPath + tag.tag + '.png" alt="' + tag.tag + '"/>');                  
+                if (tag.tag in tagIcons){                 
+                    block.icons.push('<i class="fa fa-' + tagIcons[tag.tag] + '" aria-hidden="true"></i>');               
                 }else{
                     block.tags.push(tag.tag); 
                 }
