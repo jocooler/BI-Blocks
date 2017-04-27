@@ -56,4 +56,8 @@
 }
 .nothingFound {
 	display:none;
+	font-size: 36px;
+    margin: 0 auto;
+    font-weight: bold;
+    color: #cacaca;
 }
