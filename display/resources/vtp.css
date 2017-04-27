@@ -3,7 +3,11 @@
 
 /*anchor buttons needed to be restyled*/
 .bi-wrapper a.btn-primary {color: #fff !important; background-color: #325D88 !important; border-color: #325D88 !important; text-decoration:none !important;}
-.bi-wrapper a.btn-primary:hover, .bi-wrapper a.btn-primary i:hover {color: #fff !important; background-color:#244463 !important;}
+.bi-wrapper a.btn-primary:hover, .bi-wrapper a.btn-primary:hover i {color: #fff !important; background-color:#244463 !important;}
+
+/* icon spacing */
+.card-footer i {padding-right:2px;}
+
 
 /* brick styles */
 
