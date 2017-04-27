@@ -5,7 +5,7 @@ var columns = 0,
 	VTRANS_API = 'https://vtransapi.aot.state.vt.us/api/v2/',
 	searchIndex=[],
 	tags = [],
-	tagIcons = {chart:"pie-chart", map:"map",data:"database"};
+	tagIcons = {chart:"pie-chart", map:"map",data:"database"},
     iconPath = "http://www.aot.state.vt.us/legos/display/resources/icons/",
 	extended = {};
 
