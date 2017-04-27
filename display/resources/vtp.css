@@ -52,4 +52,8 @@
 #brickSearch {
 	max-width:600px;
 	margin: 0 auto;
+	margin-bottom:15px;
+}
+.nothingFound {
+	display:none;
 }

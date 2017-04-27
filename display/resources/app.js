@@ -72,7 +72,9 @@ function prepSearch() { // this takes 1ms/2kb on my machine, so performance shou
 		});
 	});
 	
-	$('.brick').parent().append('<p class="nothingFound">no results match your search</p>');
+	if ($('.nothingFound').length === 0) {
+		$('.brick').parent().append('<p class="nothingFound">no results match your search</p>');
+	}
 }
 
 function search(term, tags) {
