@@ -5,7 +5,7 @@ var columns = 0,
 	VTRANS_API = 'https://vtransapi.aot.state.vt.us/api/v2/',
 	searchIndex=[],
 	tags = [],
-	tagIcons = {chart:"pie-chart", map:"map",data:"database"},
+	tagIcons = {chart:"pie-chart", map:"map",data:"database"};
 
 function getView(name, callback) {
 	$.get(VTRANS_API + "legos/_table/views?fields=*&related=*&order=layout_order asc&filter=view%3D" + name + "&api_key=" + API_KEY, function (response) {
