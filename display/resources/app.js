@@ -6,6 +6,8 @@ var columns = 0,
 	searchIndex=[],
 	tags = [],
 	tagIcons = {chart:"pie-chart", map:"map",data:"database"};
+    iconPath = "http://www.aot.state.vt.us/legos/display/resources/icons/",
+	extended = {};
 
 function getView(name, callback) {
 	$.get(VTRANS_API + "legos/_table/views?fields=*&related=*&order=layout_order asc&filter=view%3D" + name + "&api_key=" + API_KEY, function (response) {
@@ -17,11 +19,13 @@ function getView(name, callback) {
 				template: r.blocks.template,
 				query: r.blocks.query,
 				short: r.blocks.short,
-				extended: r.blocks.extended,
+				extended: "",
 				tags: [], 
                 icons: [],
 				blockId: 'block' + Math.random().toString().substring(4) + "-" + Math.random().toString().substring(3)
 			};
+			
+			extended[block.blockId] = r.blocks.extended;
 			
 			$.each(r.tags, function (i, tag) {				            
                 if (tag.tag in tagIcons){                 
@@ -103,6 +107,31 @@ function search(term, searchTags) {
 		$('.nothingFound').hide("fast");
 	}
 	
+}
+
+function showExtended(el) {
+	var $el = $(el).parents('.brick');
+	
+	if ($('.extended p', $el).text().length > 10 ) {
+		$('.extended p', $el).html(extended[$('.card-text', $el)[0].id])
+	}
+	$el.removeClass('show-nano').removeClass('show-short').addClass('show-extended');
+	setTimeout(function () {
+		$('html, body').animate({
+			scrollTop: $el.offset().top
+		}, 250);
+	},
+	300);
+}
+
+function showShort(el) {
+	var $el = $(el).parents('.brick');
+	$el.removeClass('show-nano').addClass('show-short').removeClass('show-extended');
+}
+
+function showNano(el) {
+	var $el = $(el).parents('.brick');
+	$el.addClass('show-nano').removeClass('show-short').removeClass('show-extended');
 }
 
 $(document).ready(function() {
