@@ -36,7 +36,7 @@
 .brick {
 	transition: width 300ms, height 300ms;
 }
-.btn-primary {
+.card .btn-primary {
 	float:right;
 }
 
