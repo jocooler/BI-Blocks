@@ -112,7 +112,7 @@ function search(term, searchTags) {
 function showExtended(el) {
 	var $el = $(el).parents('.brick');
 	
-	if ($('.extended p', $el).text().length > 10 ) {
+	if ($('.extended p', $el).text().length < 10 ) {
 		$('.extended p', $el).html(extended[$('.card-text', $el)[0].id])
 	}
 	$el.removeClass('show-nano').removeClass('show-short').addClass('show-extended');
