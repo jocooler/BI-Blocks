@@ -1,0 +1,9 @@
+/* fix for v5 box-sizing. not sure if v6 needs it */
+.main-content, .main-content *, .main-content *::before, .main-content *::after   { -webkit-box-sizing: inherit; box-sizing: inherit; }
+
+/*tag icon*/
+.v-tag-icon {width:16px; height:16px; padding-top:3px;}
+
+/*anchor buttons needed to be restyled*/
+.bi-wrapper a.btn-primary {color: #fff !important; background-color: #325D88 !important; border-color: #325D88 !important; text-decoration:none !important;}
+.bi-wrapper a.btn-primary:hover {color: #fff !important; background-color:#244463 !important;}

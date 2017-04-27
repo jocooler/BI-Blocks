@@ -3,10 +3,13 @@ var columns = 0,
 	target = '',
 	API_KEY = 'd1b885b8d202ab320717b54d9265e360db151e69be811f38da2f24fdd09333a5',
 	VTRANS_API = 'https://vtransapi.aot.state.vt.us/api/v2/',
+<<<<<<< HEAD
 	searchIndex=[],
 	tags = [];
-	tagIcons = ["chart","map","data"],
+=======
+    tagIcons = ["chart","map","data"],
     iconPath = "http://www.aot.state.vt.us/legos/display/resources/icons/";
+>>>>>>> master
 
 function getView(name, callback) {
 	$.get(VTRANS_API + "legos/_table/views?fields=*&related=*&order=layout_order asc&filter=view%3D" + name + "&api_key=" + API_KEY, function (response) {
