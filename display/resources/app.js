@@ -6,7 +6,6 @@ var columns = 0,
 	searchIndex=[],
 	tags = [],
 	tagIcons = {chart:"pie-chart", map:"map",data:"database"},
-    iconPath = "http://www.aot.state.vt.us/legos/display/resources/icons/";
 
 function getView(name, callback) {
 	$.get(VTRANS_API + "legos/_table/views?fields=*&related=*&order=layout_order asc&filter=view%3D" + name + "&api_key=" + API_KEY, function (response) {
