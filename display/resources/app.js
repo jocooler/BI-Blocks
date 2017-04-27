@@ -67,7 +67,7 @@ function prepSearch() {
 	$('.brick').each(function (i, v) {
 		searchIndex[i] = $('.short:not(".btn")', v).text().toLowerCase();
 		searchIndex[i] += " " + $('.extended:not(".btn")', v).text().toLowerCase();
-		searchIndex[i] += " " + $(extended[$('.card-text', brick')[0].id]).text().toLowerCase();
+		searchIndex[i] += " " + (extended[$('.card-text', $(this))[0].id]).toLowerCase();
 		searchIndex[i] += " " + $('h4', v).text().toLowerCase();
 		
 		$('.brick-tag', v).each(function(j, v) { 
