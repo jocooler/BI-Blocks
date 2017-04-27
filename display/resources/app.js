@@ -71,10 +71,13 @@ function prepSearch() { // this takes 1ms/2kb on my machine, so performance shou
 			tags[i] += " " + $(v).text().toLowerCase(); 
 		});
 	});
+	
+	$('.brick').parent().append('<p class="nothingFound">no results match your search</p>');
 }
 
 function search(term, tags) {
-	var searchLocation;
+	var searchLocation,
+		found = 0;
 	if (tags) {
 		searchLocation = tags;
 	} else {
@@ -85,8 +88,15 @@ function search(term, tags) {
 			$('.brick').eq(i).hide("fast");
 		} else {
 			$('.brick').eq(i).show("fast");
+			found++;
 		}
 	});
+	
+	if (!found) {
+		$('.nothingFound').show("fast");
+	} else {
+		$('.nothingFound').hide("fast");
+	}
 	
 }
 
@@ -97,7 +107,7 @@ $(document).ready(function() {
 			fillBrick($brick, data, template);
 		});
 	});
-	$('#brickSearch').keyUp(function() {
+	$('#brickSearch').keyup(function() {
 		search($(this).val());
 	});
 });	
