@@ -19,7 +19,7 @@ function getView(name, callback) {
 				template: r.blocks.template,
 				query: r.blocks.query,
 				short: r.blocks.short,
-				extended: "",
+				extended: r.blocks.extended,
 				tags: [], 
                 icons: [],
 				blockId: 'block' + Math.random().toString().substring(4) + "-" + Math.random().toString().substring(3)
