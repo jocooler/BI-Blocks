@@ -42,5 +42,7 @@
 /* brick cards need to be full height and have some space below when they're expanded */
 .brick .card {
 	height:100%;
+}
+.brick {
 	margin-bottom:15px;
 }
