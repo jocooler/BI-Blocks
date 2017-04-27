@@ -68,3 +68,6 @@
 .tagWrap {
 	margin: 0 auto;
 }
+.brick-tag:hover {
+	text-decoration:underline;
+}
