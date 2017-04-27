@@ -46,3 +46,10 @@
 .brick {
 	margin-bottom:15px;
 }
+
+/* Search and tags */
+
+#brickSearch {
+	max-width:600px;
+	margin: 0 auto;
+}

@@ -97,4 +97,7 @@ $(document).ready(function() {
 			fillBrick($brick, data, template);
 		});
 	});
+	$('#brickSearch').keyUp(function() {
+		search($(this).val());
+	});
 });	
