@@ -110,19 +110,17 @@ $(document).ready(function() {
 		});
 	});
 	$('#brickSearch').keyup(function() {
-		$('.tags .btn').removeClass('btn-primary');
-		$('.tags .btn').addClass('btn-info');
+		$('.tags .btn:not(.clear)').addClass('btn-info').removeClass('btn-primary');
 		search($(this).val());
 	});
-	$('.tags .btn').click(function () {
-		$('.tags .btn:not(".clear")').removeClass('btn-info');
-		$(this + ':not(".clear")').addClass('btn-primary');
-		if ($(this).text() !== 'Clear Search') {
-			search($(this).text(), true);
-		} else {
-			$('#brickSearch').val('');
-			search('');
-		}
-		
+	$('.tags .btn:not(.clear)').click(function () {
+		$('.tags .btn:not(.clear)').addClass('btn-info').removeClass('btn-primary');
+		$(this).removeClass('btn-info').addClass('btn-primary');
+		search($(this).text(), true);
+	});
+	$('.tags .btn.clear').click(function () {
+		$('.tags .btn:not(.clear)').addClass('btn-info').removeClass('btn-primary');
+		$('#brickSearch').val('');
+		search('');
 	});
 });	
