@@ -86,7 +86,7 @@ function search(term, searchTags) {
 		searchLocation = searchIndex;
 	}
 	$.each(searchLocation, function (i, content) {
-		if (content.indexOf(term) < 0) {
+		if (content.toLowerCase().indexOf(term.toLowerCase()) < 0) {
 			$('.brick').eq(i).hide("fast");
 		} else {
 			$('.brick').eq(i).show("fast");
