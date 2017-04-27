@@ -5,6 +5,9 @@
 	.show-extended .short {
 		display:none;
 	}
+	.show-extended {
+		display:flex;
+	}
 	.show-nano .short, .show-nano .extended {
 		display:none;
 	}
@@ -47,7 +50,6 @@
 function showExtended(el) {
 	var $el = $(el).parents('.brick');
 	$el.removeClass('show-nano').removeClass('show-short').addClass('show-extended');
-	$el.css('width','100%');
 	setTimeout(function () {
 		$('html, body').animate({
 			scrollTop: $el.offset().top
@@ -59,12 +61,10 @@ function showExtended(el) {
 function showShort(el) {
 	var $el = $(el).parents('.brick');
 	$el.removeClass('show-nano').addClass('show-short').removeClass('show-extended');
-	$el.css('width','');
 }
 
 function showNano(el) {
 	var $el = $(el).parents('.brick');
 	$el.addClass('show-nano').removeClass('show-short').removeClass('show-extended');
-	$el.css('width','');
 }
 </script>
