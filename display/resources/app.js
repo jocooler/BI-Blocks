@@ -76,7 +76,7 @@ function prepSearch() { // this takes 1ms/2kb on my machine, so performance shou
 	});
 	
 	if ($('.nothingFound').length === 0) {
-		$('.brick')[0].parent().append('<p class="nothingFound">no results match your search</p>');
+		$($('.brick')[0]).parent().append('<p class="nothingFound">no results match your search</p>');
 	}
 	
 	$('.brick-tag').off().click(function() {
