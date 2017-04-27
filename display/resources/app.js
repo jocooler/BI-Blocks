@@ -59,8 +59,8 @@ function fillBrick(brick, data, template) {
 }
 
 function prepSearch() { // this takes 1ms/2kb on my machine, so performance should be fine.
-	var searchIndex = [],
-		tags = [];
+	searchIndex = [];
+	tags = [];
 	$('.brick').each(function (i, v) {
 		searchIndex[i] = $('.short:not(".btn")', v).text().toLowerCase();
 		searchIndex[i] += " " + $('.extended:not(".btn")', v).text().toLowerCase();
@@ -69,7 +69,6 @@ function prepSearch() { // this takes 1ms/2kb on my machine, so performance shou
 		$('.brick-tag', v).each(function(j, v) { 
 			searchIndex[i] += " " + $(v).text().toLowerCase(); 
 			tags[i] += " " + $(v).text().toLowerCase(); 
-			tagList[v] = v;
 		});
 	});
 	
@@ -78,10 +77,10 @@ function prepSearch() { // this takes 1ms/2kb on my machine, so performance shou
 	}
 }
 
-function search(term, tags) {
+function search(term, searchTags) {
 	var searchLocation,
 		found = 0;
-	if (tags) {
+	if (searchTags) {
 		searchLocation = tags;
 	} else {
 		searchLocation = searchIndex;
@@ -112,5 +111,8 @@ $(document).ready(function() {
 	});
 	$('#brickSearch').keyup(function() {
 		search($(this).val());
+	});
+	$('.tags .btn').click(function () {
+		search($(this).text(), true);
 	});
 });	
