@@ -4,7 +4,7 @@ var columns = 0,
 	API_KEY = 'd1b885b8d202ab320717b54d9265e360db151e69be811f38da2f24fdd09333a5',
 	VTRANS_API = 'https://vtransapi.aot.state.vt.us/api/v2/',
 	searchIndex=[],
-	tags = [];
+	tags = [],
 	tagIcons = ["chart","map","data"],
     iconPath = "http://www.aot.state.vt.us/legos/display/resources/icons/";
 
