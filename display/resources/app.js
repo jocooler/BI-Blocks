@@ -43,10 +43,10 @@ function createBrick(brick) {
 	var firstNumber = /(\d+)/, // finds the first number, with no spaces, letters, etc.
 		size = parseInt(firstNumber.exec(brick.className)[1]); //TODO different screen sizes?
 
-	if (size + columns > 12) {
+	/* if (size + columns > 12) { // i don't think we need this anymore now that we're flexboxing.
 		$('body .container-fluid.bricks').append('<div class="row">');
 		columns = 0;
-	}
+	}*/
 	
 	var $html = $(Mustache.render('<div class="brick {{className}}" data-tags="{{#tags}}{{.}} {{/tags}}"><div class="card"></div></div>', brick));
 	$('body .container-fluid.bricks>.row:last-of-type').append($html);
