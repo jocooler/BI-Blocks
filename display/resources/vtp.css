@@ -8,6 +8,10 @@
 /* icon spacing */
 .card-footer i {padding-right:2px;}
 
+/* checkbox labels */
+.bi-wrapper .form-check-input {margin-top:0;}
+
+
 
 /* brick styles */
 
