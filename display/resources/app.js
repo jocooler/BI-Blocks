@@ -5,13 +5,15 @@ var columns = 0,
 	VTRANS_API = 'https://vtransapi.aot.state.vt.us/api/v2/',
 	searchIndex=[],
 	tags = [],
-	tagIcons = {chart:"pie-chart", map:"map",data:"database"},
-    iconPath = "http://www.aot.state.vt.us/legos/display/resources/icons/",
-	extended = {};
+	tagIcons = {chart:"pie-chart", map:"map", data:"database"},
+	extended = {},
+    blockCount = 0,
+    blockCounter = 0;
 
 function getView(name, callback) {
 	$.get(VTRANS_API + "legos/_table/views?fields=*&related=*&order=layout_order asc&filter=view%3D" + name + "&api_key=" + API_KEY, function (response) {
-		$.each(response.resource, function (i, r) {
+        blockCount = response.resource.length;
+        $.each(response.resource, function (i, r) {
 			var block = {
 				order: r.layout_order,
 				className: r.className + " show-short",
@@ -58,7 +60,6 @@ function createBrick(brick) {
 function fillBrick(brick, data, template) {
 	var $html = $(Mustache.render(template, data));
 	$('.card', $(brick)).append($html);
-	prepSearch();
 }
 
 function prepSearch() {
@@ -69,7 +70,6 @@ function prepSearch() {
 		searchIndex[i] += " " + $('.extended:not(".btn")', v).text().toLowerCase();
 		searchIndex[i] += " " + (extended[$('.card-text', $(this))[0].id]).toLowerCase();
 		searchIndex[i] += " " + $('h4', v).text().toLowerCase();
-		
 		$('.brick-tag', v).each(function(j, v) { 
 			searchIndex[i] += " " + $(v).text().toLowerCase(); 
 			tags[i] += " " + $(v).text().toLowerCase(); 
@@ -135,13 +135,22 @@ function showNano(el) {
 	$el.addClass('show-nano').removeClass('show-short').removeClass('show-extended');
 }
 
+function bricksFilledComplete(){
+    prepSearch();
+}
+
 $(document).ready(function() {
-	getView(view, function(data) {
-		var $brick = createBrick(data);
-		$.get(data.template + "?12", function (template) {
-			fillBrick($brick, data, template);
-		});
-	});
+    getView(view, function(data) {     
+        var $brick = createBrick(data);
+        $.get(data.template, function (template) {
+            fillBrick($brick, data, template);
+            blockCounter++;
+            if (blockCounter >= blockCount){ 
+                bricksFilledComplete();
+            }
+        });
+    });
+  
 	$('#brickSearch').keyup(function() {
 		$('.tags .btn:not(.clear)').addClass('btn-info').removeClass('btn-primary');
 		search($(this).val());
