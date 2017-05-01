@@ -68,11 +68,44 @@ h2#page-title {color:#333;}
 }
 
 .tags .btn {
-	margin:10px 5px;
+	margin:2px 2px;
 }
 .tagWrap {
-	margin: 0 auto;
+	margin: 10px 0 10px 6px;
 }
 .brick-tag:hover {
 	text-decoration:underline;
 }
+
+
+/* menu */
+/* hide left menu if screen is bigger than 600px. smaller than that gets pushed to the bottom anyway */
+@media (min-width: 600px) {
+    .sidebar-first .region-sidebar-first { display:none;}
+}
+
+.sidebars section {margin-top:30px;}
+
+.vtpMenu {      
+    float:left;
+    width: 20%;
+    margin: 12px -20% 0 0;
+    padding: 0 10px 0 10px;
+    position:relative;
+}
+
+#showVTransMenuLink {color:#333; box-shadow:none; -webkit-box-shadow:none; }
+#showVTransMenuLink:hover {color:#93C54B;}
+
+.filterSection{
+    width:90%;
+    min-width:180px;
+    line-height:.2px; 
+    padding:6px;
+}
+
+.tagSection{
+    width:100%;
+}
+
+.region-sidebar-first #block-system-main-menu {float:initial;}

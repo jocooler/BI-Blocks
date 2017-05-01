@@ -5,7 +5,7 @@ var columns = 0,
 	VTRANS_API = 'https://vtransapi.aot.state.vt.us/api/v2/',
 	searchIndex=[],
 	tags = [],
-	tagIcons = {chart:"pie-chart", map:"map", data:"database"},
+	tagIcons = {chart:{fa:"pie-chart",tag:"c$h$a$r$t"}, map:{fa:"map",tag:"m$a$p"},data:{fa:"database",tag:"d$a$t$a"}},
 	extended = {},
     blockCount = 0,
     blockCounter = 0;
@@ -31,11 +31,14 @@ function getView(name, callback) {
 			
 			$.each(r.tags, function (i, tag) {				            
                 if (tag.tag in tagIcons){                 
-                    block.icons.push('<i class="fa fa-' + tagIcons[tag.tag] + '" aria-hidden="true"></i>');               
+                    block.icons.push('<i class="v-icons fa fa-' + tagIcons[tag.tag].fa + '" data-tags="' + tagIcons[tag.tag].tag + '" aria-hidden="true"></i>');               
                 }else{
                     block.tags.push(tag.tag); 
                 }
 			});
+            block.icons.sort(); // keep some kind of visual consistancy
+            block.tags.sort(); 
+            
 			callback(block);
 		});
 	});
@@ -139,6 +142,77 @@ function bricksFilledComplete(){
     prepSearch();
 }
 
+function createLeftMenu(){
+    // section needs major refactoring.. i will get back to that.
+
+    var $html = "<div class='vtpMenu bi-wrapper'><button type='button' id='showVTransMenuLink' class='btn btn-link'>Show VTrans Menu <i class='fa fa-chevron-circle-down' aria-hidden='true'></i></button></div>";
+    $(".main-column.main-section").prepend($html);    
+    
+    $html = '<div class="card bg-faded float-left filterSection clearfix">'+
+    '    <div class="form-check" style="padding:6px;">'+
+    '    Filter on type:'+
+    '    </div>'+
+    '        <div class="form-check">'+
+    '          <label class="form-check-label">'+
+    '            <input class="form-check-input" type="checkbox" value="m$a$p$">'+
+    '            <i class="fa fa-map" aria-hidden="true"> Maps</i>'+
+    '          </label>'+
+    '        </div>'+
+    '        <div class="form-check">'+
+    '          <label class="form-check-label">'+
+    '            <input class="form-check-input" type="checkbox" value="d$a$t$a">'+
+    '            <i class="fa fa-database" aria-hidden="true"> Data</i>'+
+    '          </label>'+
+    '        </div>'+
+    '        <div class="form-check">'+
+    '          <label class="form-check-label">'+
+    '            <input class="form-check-input" type="checkbox" value="c$h$a$r$t">'+
+    '            <i class="fa fa-pie-chart" aria-hidden="true"> Dashboards and Charts</i>'+
+    '          </label>'+
+    '        </div>'+
+    '       <div class="form-check"><label class="form-check-label"><input class="form-check-input" type="checkbox" value="a$p$p" /> <i aria-hidden="true" class="fa fa-cogs"> Applications</i> </label></div>'+
+    '       <div class="form-check"><label class="form-check-label"><input class="form-check-input" type="checkbox" value="d$o$c" /> <i aria-hidden="true" class="fa fa-file-text"> Documents</i> </label></div>'+
+    '   </div>'+
+    '</div>';
+    
+    $(".vtpMenu").append($html); 
+    
+    
+    
+    $html = '<div class="row tags clearfix tagSection">'+
+    '<div class="tagWrap">'+
+    '	<button class="btn btn-sm btn-info">Bridges</button>'+
+    '	<button class="btn btn-sm btn-info">Pavement</button>'+
+    '	<button class="btn btn-sm btn-info">Safety</button>'+
+    '	<button class="btn btn-sm btn-danger clear">Clear Search</button>'+
+    '</div>'+
+    '</div>';
+	
+    $(".vtpMenu").append($html); 
+    
+    $('#showVTransMenuLink').click(function() {
+        if ($(".sidebars section").css("display") === "none"){
+            $(".sidebars section").css("display","block");
+            $(this).html("Hide VTrans Menu <i class='fa fa-chevron-circle-up' aria-hidden='true'></i>");
+            $(".vtpMenu").appendTo(".sidebars section");
+            $(".vtpMenu").css("float","inherit");
+            $(".vtpMenu").css("width","100%");
+        }else{
+            $(".sidebars section").css("display","none");
+            $(this).html("Show VTrans Menu <i class='fa fa-chevron-circle-down' aria-hidden='true'></i>");
+            $(".vtpMenu").prependTo(".main-column.main-section");
+            $(".vtpMenu").css("float","left");
+            $(".vtpMenu").css("width","20%");
+        }
+	});
+}
+
+function createHelp(){
+    var $html = ' <i class="fa fa-question-circle" aria-hidden="true"></i>'
+    $("#subTitle").append($html);
+    // click handler and modal help
+}
+
 $(document).ready(function() {
     getView(view, function(data) {     
         var $brick = createBrick(data);
@@ -150,6 +224,10 @@ $(document).ready(function() {
             }
         });
     });
+    
+    createLeftMenu();
+    
+    createHelp();
   
 	$('#brickSearch').keyup(function() {
 		$('.tags .btn:not(.clear)').addClass('btn-info').removeClass('btn-primary');
