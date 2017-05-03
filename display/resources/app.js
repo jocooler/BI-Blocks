@@ -8,7 +8,8 @@ var columns = 0,
 	tagIcons = {chart:{fa:"pie-chart",tag:"c$h$a$r$t"}, map:{fa:"map",tag:"m$a$p"},data:{fa:"database",tag:"d$a$t$a"}},
 	extended = {},
     blockCount = 0,
-    blockCounter = 0;
+    blockCounter = 0,
+    filter = [];
 
 function getView(name, callback) {
 	$.get(VTRANS_API + "legos/_table/views?fields=*&related=*&order=layout_order asc&filter=view%3D" + name + "&api_key=" + API_KEY, function (response) {
@@ -97,9 +98,10 @@ function search(term, searchTags) {
 		searchLocation = searchIndex;
 	}
 	$.each(searchLocation, function (i, content) {
-		if (content.toLowerCase().indexOf(term.toLowerCase()) < 0) {
+		if (content.toLowerCase().indexOf(term.toLowerCase()) < 0) { 
 			$('.brick').eq(i).hide("fast");
-		} else {
+            console.log($('.brick').eq(i));
+		} else if (checkFilter($('.brick').eq(i))) { // only search filtered content?         
 			$('.brick').eq(i).show("fast");
 			found++;
 		}
@@ -143,35 +145,41 @@ function bricksFilledComplete(){
 }
 
 function createLeftMenu(){
-    // section needs major refactoring.. i will get back to that.
+    // section needs major refactoring.. i will get back to that once we know this is the direction we are going.
 
-    var $html = "<div class='vtpMenu bi-wrapper'><button type='button' id='showVTransMenuLink' class='btn btn-link'>Show VTrans Menu <i class='fa fa-chevron-circle-down' aria-hidden='true'></i></button></div>";
+    var $html = "<div class='vtpMenu bi-wrapper'><button type='button' id='showVTransMenuLink' class='btn btn-link'><span style='text-decoration:underline;'>Show VTrans Menu</span> <i class='fa fa-chevron-circle-down' aria-hidden='true'></i></button></div>";
     $(".main-column.main-section").prepend($html);    
     
     $html = '<div class="card bg-faded float-left filterSection clearfix">'+
     '    <div class="form-check" style="padding:6px;">'+
     '    Filter on type:'+
     '    </div>'+
+    '       <div class="form-check">'+
+    '          <label class="form-check-label">'+
+    '            <input class="form-check-input" type="checkbox" checked value="a$l$l">'+
+    '            <i class="fa" aria-hidden="true"> Select All</i>'+
+    '          </label>'+
+    '        </div>'+
     '        <div class="form-check">'+
     '          <label class="form-check-label">'+
-    '            <input class="form-check-input" type="checkbox" value="m$a$p$">'+
+    '            <input class="form-check-input" type="checkbox" checked value="m$a$p">'+
     '            <i class="fa fa-map" aria-hidden="true"> Maps</i>'+
     '          </label>'+
     '        </div>'+
     '        <div class="form-check">'+
     '          <label class="form-check-label">'+
-    '            <input class="form-check-input" type="checkbox" value="d$a$t$a">'+
+    '            <input class="form-check-input" type="checkbox" checked value="d$a$t$a">'+
     '            <i class="fa fa-database" aria-hidden="true"> Data</i>'+
     '          </label>'+
     '        </div>'+
     '        <div class="form-check">'+
     '          <label class="form-check-label">'+
-    '            <input class="form-check-input" type="checkbox" value="c$h$a$r$t">'+
+    '            <input class="form-check-input" type="checkbox" checked value="c$h$a$r$t">'+
     '            <i class="fa fa-pie-chart" aria-hidden="true"> Dashboards and Charts</i>'+
     '          </label>'+
     '        </div>'+
-    '       <div class="form-check"><label class="form-check-label"><input class="form-check-input" type="checkbox" value="a$p$p" /> <i aria-hidden="true" class="fa fa-cogs"> Applications</i> </label></div>'+
-    '       <div class="form-check"><label class="form-check-label"><input class="form-check-input" type="checkbox" value="d$o$c" /> <i aria-hidden="true" class="fa fa-file-text"> Documents</i> </label></div>'+
+    '       <div class="form-check"><label class="form-check-label"><input class="form-check-input" type="checkbox" checked value="a$p$p" /> <i aria-hidden="true" class="fa fa-cogs"> Applications</i> </label></div>'+
+    '       <div class="form-check"><label class="form-check-label"><input class="form-check-input" type="checkbox" checked value="d$o$c" /> <i aria-hidden="true" class="fa fa-file-text"> Documents</i> </label></div>'+
     '   </div>'+
     '</div>';
     
@@ -193,24 +201,158 @@ function createLeftMenu(){
     $('#showVTransMenuLink').click(function() {
         if ($(".sidebars section").css("display") === "none"){
             $(".sidebars section").css("display","block");
-            $(this).html("Hide VTrans Menu <i class='fa fa-chevron-circle-up' aria-hidden='true'></i>");
+            $(this).html("<span style='text-decoration:underline;'>Hide VTrans Menu</span> <i class='fa fa-chevron-circle-up' aria-hidden='true'></i>");
             $(".vtpMenu").appendTo(".sidebars section");
             $(".vtpMenu").css("float","inherit");
             $(".vtpMenu").css("width","100%");
         }else{
             $(".sidebars section").css("display","none");
-            $(this).html("Show VTrans Menu <i class='fa fa-chevron-circle-down' aria-hidden='true'></i>");
+            $(this).html("<span style='text-decoration:underline;'>Show VTrans Menu</span> <i class='fa fa-chevron-circle-down' aria-hidden='true'></i>");
             $(".vtpMenu").prependTo(".main-column.main-section");
             $(".vtpMenu").css("float","left");
             $(".vtpMenu").css("width","20%");
+            $("html, body").animate({ scrollTop: 0 }, "fast");
+        }
+	});
+    
+    var mql = window.matchMedia("(max-width: 600px)");
+    if (mql.matches){
+        $(".vtpMenu").prependTo(".container-fluid.bricks");
+        $(".vtpMenu").css("float","inherit");
+    }
+    mql.addListener(function(event) {
+        if(event.matches) {
+            $(".vtpMenu").insertBefore(".container-fluid.bricks");
+            $(".vtpMenu").css("float","inherit");
+            $(".vtpMenu").css("width","100%");
+        } else {
+            $(".vtpMenu").prependTo(".main-column.main-section");
+            $(".vtpMenu").css("width","20%");
+            $(".vtpMenu").css("float","left");
+        }
+    });
+}
+
+function createHelp(){
+    var $html = ' <i class="fa fa-question-circle" id="helpIcon" aria-hidden="true"></i>'
+    $("#subTitle").append($html);
+    
+    $('#helpIcon').click(function() {
+       showHelp();
+	});
+  
+}
+
+function showHelp(){
+    // some modal or something
+}
+
+// remove item from array via string
+function removeStringFromArray(arr, what) {
+    var found = arr.indexOf(what);
+    while (found !== -1) {
+        arr.splice(found, 1);
+        found = arr.indexOf(what);
+    }
+}
+
+//after a checkbox has changed state, process the filter
+function processFilter(){
+    var block, found, ct;
+    $(".brick").each(function (i) {
+        block = $(this);
+        found = false;
+        ct = 0; // ignoring blocks without any icons. Not sure if this is best or not. They should probably all have at least one anyway.
+		$(".v-icons", this).each(function(i){
+            ct++;
+            if ($.inArray(this.attributes["data-tags"].value,filter) > -1){
+                block.show("fast");
+                found = true;                           
+            }          
+            if (found){        
+                return;
+            }
+        });
+        if (found){        
+            if (checkSearch(block)){
+                block.show("fast");
+            }             
+        }else{
+            if (ct > 0){
+                block.hide("fast"); 
+            }
         }
 	});
 }
 
-function createHelp(){
-    var $html = ' <i class="fa fa-question-circle" aria-hidden="true"></i>'
-    $("#subTitle").append($html);
-    // click handler and modal help
+//toggles all filter checkboxes
+function toggleAllFilterItems(isChecked){
+    if (isChecked){
+        $(".brick").each(function (i) {
+            $(this).show("fast");
+        });
+        fillFilter();
+    }else{
+        $(".brick").each(function (i) {
+            $(this).hide("fast");
+        });
+        filter = [];           
+    }
+    $(".filterSection :checkbox").each(function () {
+        $(this).prop('checked', isChecked);
+    });
+}
+
+//load the filter array with all icon tags
+function fillFilter(){
+    filter = [];
+    for (var prop in tagIcons) {
+        if (tagIcons.hasOwnProperty(prop)) {
+            filter.push(tagIcons[prop].tag);
+        }
+    }
+}
+
+//Search only filtered content
+function checkFilter(block){
+    var found = false, ct=0;
+    $(".v-icons", block).each(function(i){
+        ct++;
+        if ($.inArray(this.attributes["data-tags"].value,filter) > -1){           
+            found = true; 
+            return;
+        }       
+    });
+    if (found || ct === 0){        
+         return true;             
+    }else{
+        return false;
+    }
+}
+
+function checkSearch(block){
+    //no search text exists
+    if ($('#brickSearch').val() = ""){
+        return true;
+    }
+    
+    // search text exists.
+    // need to check if the block should still be displayed based on search given the filter.
+   
+    
+    
+}
+
+//Search box key-up delay
+function debounce(fn, delay) {
+  var timer = null;
+  return function () {
+    var context = this, args = arguments;
+    clearTimeout(timer);
+    timer = setTimeout(function () {
+      fn.apply(context, args);
+    }, delay);
+  };
 }
 
 $(document).ready(function() {
@@ -229,10 +371,10 @@ $(document).ready(function() {
     
     createHelp();
   
-	$('#brickSearch').keyup(function() {
+	$('#brickSearch').keyup(debounce(function() {
 		$('.tags .btn:not(.clear)').addClass('btn-info').removeClass('btn-primary');
 		search($(this).val());
-	});
+	}, 250));
 	$('.tags .btn:not(.clear)').click(function () {
 		$('.tags .btn:not(.clear)').addClass('btn-info').removeClass('btn-primary');
 		$(this).removeClass('btn-info').addClass('btn-primary');
@@ -243,4 +385,22 @@ $(document).ready(function() {
 		$('#brickSearch').val('');
 		search('');
 	});
+    
+    fillFilter();
+    
+    $(".filterSection").on('change', ':checkbox', function() {
+        var val = this.value;
+        if (val =="a$l$l"){            
+            toggleAllFilterItems(this.checked);                    
+            return;
+        }
+        if(this.checked) {
+            filter.push(val);
+        }
+        else{
+            removeStringFromArray(filter, val);
+        }
+        processFilter();
+    });
+    
 });	

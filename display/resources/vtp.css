@@ -1,111 +1,161 @@
 /* fix for v5 box-sizing. not sure if v6 needs it */
-.main-content, .main-content *, .main-content *::before, .main-content *::after   { -webkit-box-sizing: inherit; box-sizing: inherit; }
+
+.main-content,
+.main-content *,
+.main-content *::before,
+.main-content *::after {
+    -webkit-box-sizing: inherit;
+    box-sizing: inherit;
+}
 
 /*anchor buttons needed to be restyled*/
-.bi-wrapper a.btn-primary {color: #fff !important; background-color: #325D88 !important; border-color: #325D88 !important; text-decoration:none !important;}
-.bi-wrapper a.btn-primary:hover, .bi-wrapper a.btn-primary:hover i {color: #fff !important; background-color:#244463 !important;}
+
+.bi-wrapper a.btn-primary {
+    color: #fff !important;
+    background-color: #325D88 !important;
+    border-color: #325D88 !important;
+    text-decoration: none !important;
+}
+.bi-wrapper a.btn-primary:hover,
+.bi-wrapper a.btn-primary:hover i {
+    color: #fff !important;
+    background-color: #244463 !important;
+}
 
 /* icon spacing */
-.card-footer i {padding-right:2px;}
+
+.card-footer i {
+    padding-right: 2px;
+}
 
 /* checkbox labels */
-.bi-wrapper .form-check-input {margin-top:0;}
 
-h2#page-title {color:#333;}
- 
+.bi-wrapper .form-check-input {
+    margin-top: 0;
+}
+h2#page-title {
+    color: #333;
+}
+
 /* brick styles */
 
 .show-short .extended {
-	display:none;
+    display: none;
 }
 .show-extended .short {
-	display:none;
+    display: none;
 }
-.show-nano .short, .show-nano .extended {
-	display:none;
+.show-nano .short,
+.show-nano .extended {
+    display: none;
 }
 .show-extended {
-	flex: 0 0 100%!important;
-	max-width: 100% !important;
+    flex: 0 0 100%!important;
+    max-width: 100% !important;
 }
-.show-short iframe, iframe {
-	width:100%;
-	height:300px;
-	display:block;
-	border:0px;
+.show-short iframe,
+iframe {
+    width: 100%;
+    height: 300px;
+    display: block;
+    border: 0px;
 }
 .show-extended iframe {
-	height:500px;
+    height: 500px;
 }
 .brick {
-	transition: width 300ms, height 300ms;
+    transition: width 300ms, height 300ms;
 }
 .card .btn-primary {
-	float:right;
+    float: right;
 }
 
 /* brick cards need to be full height and have some space below when they're expanded */
+
 .brick .card {
-	height:100%;
+    height: 100%;
 }
 .brick {
-	margin-bottom:15px;
+    margin-bottom: 15px;
 }
 
 /* Search and tags */
 
 #brickSearch {
-	max-width:600px;
-	margin: 0 auto;
-	margin-bottom:15px;
+    max-width: 600px;
+    margin: 0;
+    margin-bottom: 15px;
+    width:90%;
 }
 .nothingFound {
-	display:none;
-	font-size: 36px;
+    display: none;
+    font-size: 36px;
     margin: 0 auto;
     font-weight: bold;
     color: #cacaca;
 }
-
 .tags .btn {
-	margin:2px 2px;
+    margin: 2px 2px;
 }
 .tagWrap {
-	margin: 10px 0 10px 6px;
+    margin: 10px 0 10px 6px;
 }
 .brick-tag:hover {
-	text-decoration:underline;
+    text-decoration: underline;
 }
-
 
 /* menu */
 /* hide left menu if screen is bigger than 600px. smaller than that gets pushed to the bottom anyway */
 @media (min-width: 600px) {
-    .sidebar-first .region-sidebar-first { display:none;}
+    .sidebar-first .region-sidebar-first {
+        display: none;
+    }
 }
-
-.sidebars section {margin-top:30px;}
-
-.vtpMenu {      
-    float:left;
+.sidebars section {
+    margin-top: 30px;
+}
+.vtpMenu {
+    float: left;
     width: 20%;
     margin: 12px -20% 0 0;
     padding: 0 10px 0 10px;
-    position:relative;
+}
+@media (max-width: 600px) {
+    .vtpMenu {
+        width: 100%;
+    }
+    #showVTransMenuLink {
+        display: none;
+    }
+}
+#helpIcon {
+    cursor: pointer;
+}
+#helpIcon:hover {
+    color: #3e6839;
+}
+#showVTransMenuLink {
+    color: #333;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+#showVTransMenuLink:hover {
+    color: #3e6839;
+    text-decoration:none;
 }
 
-#showVTransMenuLink {color:#333; box-shadow:none; -webkit-box-shadow:none; }
-#showVTransMenuLink:hover {color:#93C54B;}
-
-.filterSection{
-    width:90%;
-    min-width:180px;
-    line-height:.2px; 
-    padding:6px;
+.filterSection {
+    min-width: 180px;
+    line-height: .2px;
+    padding: 6px;
 }
-
-.tagSection{
-    width:100%;
+.tagSection {
+    width: 100%;
 }
-
-.region-sidebar-first #block-system-main-menu {float:initial;}
+.region-sidebar-first #block-system-main-menu {
+    float: none;
+    margin-bottom:0;
+}
+.container-fluid.bricks {
+    margin-top: 20px;
+}
