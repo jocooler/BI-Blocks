@@ -5,15 +5,17 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js"></script>
 <script src="http://www.aot.state.vt.us/legos/display/resources/mustache.js"></script>
 <script src="http://www.aot.state.vt.us/legos/display/resources/app.js"></script>
-<div id="subTitle" style="margin:0 0 16px 0;">Public Information Portal</div>
+<div id="subTitle" style="margin:0 0 16px 0;">Public Information Portal  <i class="fa fa-question-circle" id="helpIcon" aria-hidden="true"></i></div>
 <div class="bi-wrapper">
     <div class="clearfix" style="width:100%;">
         <input class="form-control float-left" id="brickSearch" placeholder="search" type="search" />
     </div>
     <div class="container-fluid bricks">
+        <p class="nothingFound" style="display:none;">no results match your search</p>
         <div class="row"></div>
     </div>
 </div>
 <script>
-	var view = "Demo View 1";
+	var vtp = new Vtp("Demo View 1");
+    vtp.init();
 </script>
