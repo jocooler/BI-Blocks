@@ -104,58 +104,25 @@ iframe {
     text-decoration: underline;
 }
 
-/* menu */
-/* hide left menu if screen is bigger than 600px. smaller than that gets pushed to the bottom anyway */
-@media (min-width: 600px) {
-    .sidebar-first .region-sidebar-first {
-        display: none;
-    }
-}
-.sidebars section {
-    margin-top: 30px;
-}
-.vtpMenu {
-    float: left;
-    width: 20%;
-    margin: 12px -20% 0 0;
-    padding: 0 10px 0 10px;
-}
-@media (max-width: 600px) {
-    .vtpMenu {
-        width: 100%;
-    }
-    #showVTransMenuLink {
-        display: none;
-    }
-}
 #helpIcon {
     cursor: pointer;
 }
 #helpIcon:hover {
     color: #3e6839;
 }
-#showVTransMenuLink {
-    color: #333;
-    box-shadow: none;
-    -webkit-box-shadow: none;
-}
-#showVTransMenuLink:hover {
-    color: #3e6839;
-    text-decoration:none;
+
+.row.tagSection {
+    width: 100%;
+    margin-left:-7px;
 }
 
-.filterSection {
-    min-width: 180px;
-    line-height: .2px;
-    padding: 6px;
-}
-.tagSection {
-    width: 100%;
-}
-.region-sidebar-first #block-system-main-menu {
-    float: none;
-    margin-bottom:0;
-}
 .container-fluid.bricks {
     margin-top: 20px;
 }
+
+/************** bootstrap 4.0.06 dropdown is broken. using a jquery plugin as a workaround ********/
+
+.jq-dropdown{position:absolute;z-index:1039;display:none}.jq-dropdown .jq-dropdown-menu,.jq-dropdown .jq-dropdown-panel{min-width:160px;max-width:360px;list-style:none;background:#fff;border:solid 1px #ddd;border-radius:4px;box-shadow:0 5px 10px rgba(0,0,0,0.2);overflow:visible;padding:4px 0;margin:0}.jq-dropdown .jq-dropdown-panel{padding:10px}.jq-dropdown.jq-dropdown-tip{margin-top:8px}.jq-dropdown.jq-dropdown-tip:before{position:absolute;top:-6px;left:9px;content:"";border-left:7px solid transparent;border-right:7px solid transparent;border-bottom:7px solid #ddd;display:inline-block}.jq-dropdown.jq-dropdown-tip:after{position:absolute;top:-5px;left:10px;content:"";border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:6px solid #fff;display:inline-block}.jq-dropdown.jq-dropdown-tip.jq-dropdown-anchor-right:before{left:auto;right:9px}.jq-dropdown.jq-dropdown-tip.jq-dropdown-anchor-right:after{left:auto;right:10px}.jq-dropdown.jq-dropdown-scroll .jq-dropdown-menu,.jq-dropdown.jq-dropdown-scroll .jq-dropdown-panel{max-height:180px;overflow:auto}.jq-dropdown .jq-dropdown-menu li{list-style:none;padding:0 0;margin:0;line-height:18px}.jq-dropdown .jq-dropdown-menu li>a,.jq-dropdown .jq-dropdown-menu label{display:block;color:inherit;text-decoration:none;line-height:18px;padding:3px 15px;margin:0;white-space:nowrap}.jq-dropdown .jq-dropdown-menu li>a:hover,.jq-dropdown .jq-dropdown-menu label:hover{background-color:#f2f2f2;color:inherit;cursor:pointer}.jq-dropdown .jq-dropdown-menu .jq-dropdown-divider{font-size:1px;border-top:solid 1px #e5e5e5;padding:0;margin:5px 0}
+#filterSelect {float:left; line-height:3;margin-left: 8px;}
+#filterSelect a {text-decoration:none;}
+/* end dropdown */

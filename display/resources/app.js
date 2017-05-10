@@ -3,49 +3,47 @@
 function Vtp(v) {
     this.view = v;
     this.blocks = [];
-    this.filter = [];
     this.target = '';
 	this.API_KEY = 'd1b885b8d202ab320717b54d9265e360db151e69be811f38da2f24fdd09333a5';
 	this.VTRANS_API = 'https://vtransapi.aot.state.vt.us/api/v2/';
     
     this.init = function(){
         this.getView();
-        this.createLeftMenu();
-        this.fillFilter();
-
+        this.createFilter();
+        this.createTagButtons();
         
         var that = this; //just aliasing 'this' for the events
+        
         $('#brickSearch').keyup(Utils.debounce(function() {
             $('.tags .btn:not(.clear)').addClass('btn-info').removeClass('btn-primary');
             that.search($(this).val());
         }, 250));
+        
         $('.tags .btn:not(.clear)').click(function () {
             $('.tags .btn:not(.clear)').addClass('btn-info').removeClass('btn-primary');
             $(this).removeClass('btn-info').addClass('btn-primary');
             that.search($(this).text(), "tags");
         });
+        
         $('.tags .btn.clear').click(function () {
             $('.tags .btn:not(.clear)').addClass('btn-info').removeClass('btn-primary');
             $('#brickSearch').val('');
+            that.resetBlockVisibility();
             that.search('');
         });
+        
         $('#helpIcon').click(function() {
            // todo: create some kind of help modal?
+        }); 
+        
+        $(".jq-dropdown-menu").on('click', 'a', function() {
+            that.processFilter($(this));
+            var html = $("i", $(this))[0];
+            $("#filterButton span").each(function(){
+                this.innerHTML = html.innerHTML;          
+            });
         });
-        $(".filterSection").on('change', ':checkbox', function() {
-            var val = this.value;
-            if (val =="a$l$l"){            
-                that.toggleAllFilterItems(this.checked);                    
-                return;
-            }
-            if(this.checked) {
-                that.filter.push(val);
-            }
-            else{
-                Utils.removeStringFromArray(that.filter, val);
-            }
-            that.processFilter();
-        });
+        
     }
     
     this.getView = function() {
@@ -66,8 +64,6 @@ function Vtp(v) {
                     };
                     var block = new Block(params);
                     block.init();
-                    block.create();
-                    block.fill();
                     this.blocks.push(block);                
                     if (blockCount >= this.blocks.length){ 
                         this.blocksFilledComplete();
@@ -106,22 +102,23 @@ function Vtp(v) {
         if (searchWhat == "tags") {
             $.each(this.blocks, function(){
                 if (this.searchableTags.indexOf(term.toLowerCase()) < 0) { 
-                    this.hide();
+                    this.searched = false;
                 }else{
-                    this.show();
+                    this.searched = true;
                 }
             });           
         } else {
             $.each(this.blocks, function(){
                 if (this.searchableText.indexOf(term.toLowerCase()) < 0) { 
-                    this.hide();
+                    this.searched = false;
                 }else{
-                    this.show();
+                    this.searched = true;
                 }
             });           
         }
         
-        this.checkNotFound();
+        this.filterAndSearchResults();
+        this.checkNotFound(); 
     }
     
     this.checkNotFound = function(){
@@ -142,99 +139,53 @@ function Vtp(v) {
         return null;
     }
     
-    this.fillFilter = function(){
-        for (var prop in tagIcons){
-            if (tagIcons.hasOwnProperty(prop)) {
-                this.filter.push(tagIcons[prop].tag);
-            }
-        }
+    this.createFilter = function(){ 
+        var html = '<div id="filterSelect">Within: <a href="#" data-jq-dropdown="#jq-dropdown-1" id="filterButton"><span>All</span> <i class="fa fa-chevron-circle-down" aria-hidden="true"></i></a>'+
+        '<div id="jq-dropdown-1" class="jq-dropdown jq-dropdown-relative">'+
+        '    <ul class="jq-dropdown-menu">'+
+        '        <li><a href="#" data-tags="a$l$l"><i class="fa">All</i></a></li>'+
+        '        <li><a href="#" data-tags="m$a$p"><i class="fa fa-map" aria-hidden="true"> Maps</i></a></li>'+
+        '        <li><a href="#" data-tags="d$a$t$a"><i class="fa fa-database" aria-hidden="true"> Data</i></a></li>'+
+        '        <li><a href="#" data-tags="c$h$a$r$t"><i class="fa fa-pie-chart" aria-hidden="true"> Dashboards and Charts</i></a></li>'+
+        '        <li><a href="#" data-tags="a$p$p"><i aria-hidden="true" class="fa fa-cogs"> Applications</i></li>'+
+        '        <li><a href="#" data-tags="d$o$c"><i aria-hidden="true" class="fa fa-file-text"> Documents</i></a></li>'+
+        '        <li><a href="#" data-tags="w$e$b"><i aria-hidden="true" class="fa fa-globe"> Websites</i></a></li>'+
+        '    </ul>'+
+        '</div></div>';
+        $(html).insertAfter("#brickSearch");
     }
-    
-    this.toggleAllFilterItems = function(isChecked){
-        if (isChecked){
-            for (var i = 0; i < this.blocks.length; i++){
-                this.blocks[i].show();
-            }
-            this.fillFilter();
-        }else{
-            for (var i = 0; i < this.blocks.length; i++){
-                this.blocks[i].hide();
-            }
-            this.filter = [];           
-        }
-        $(".filterSection :checkbox").each(function () {
-            $(this).prop('checked', isChecked);
-        });
-        
-        this.checkNotFound();
-    }
-    
-    this.processFilter = function(){
-        var block,
-            found = false;
-        for (var i = 0; i < this.blocks.length; i++){
-            found = false;
-            block = this.blocks[i];
-            $.each(block.iconTags, $.proxy(function(i){             
-                if (this.filter.indexOf(block.iconTags[i]) > -1){
-                    block.show();  
-                    found = true;
-                    return;
-                }              
-            },this)); 
-            if (!found){
-                block.hide();
-            }
-        }
-        
-        this.checkNotFound();
-    }
-    
-    this.createLeftMenu = function(){
-        // section needs major refactoring.. i will get back to that once we know this is the direction we are going.
 
-        var $html = "<div class='vtpMenu bi-wrapper'><button type='button' id='showVTransMenuLink' class='btn btn-link'><span style='text-decoration:underline;'>Show VTrans Menu</span> <i class='fa fa-chevron-circle-down' aria-hidden='true'></i></button></div>";
-        $(".main-column.main-section").prepend($html);    
-        
-        $html = '<div class="card bg-faded float-left filterSection clearfix">'+
-        '    <div class="form-check" style="padding:6px;">'+
-        '    Filter on type:'+
-        '    </div>'+
-        '       <div class="form-check">'+
-        '          <label class="form-check-label">'+
-        '            <input class="form-check-input" type="checkbox" checked value="a$l$l">'+
-        '            <i class="fa" aria-hidden="true"> Select All</i>'+
-        '          </label>'+
-        '        </div>'+
-        '        <div class="form-check">'+
-        '          <label class="form-check-label">'+
-        '            <input class="form-check-input" type="checkbox" checked value="m$a$p">'+
-        '            <i class="fa fa-map" aria-hidden="true"> Maps</i>'+
-        '          </label>'+
-        '        </div>'+
-        '        <div class="form-check">'+
-        '          <label class="form-check-label">'+
-        '            <input class="form-check-input" type="checkbox" checked value="d$a$t$a">'+
-        '            <i class="fa fa-database" aria-hidden="true"> Data</i>'+
-        '          </label>'+
-        '        </div>'+
-        '        <div class="form-check">'+
-        '          <label class="form-check-label">'+
-        '            <input class="form-check-input" type="checkbox" checked value="c$h$a$r$t">'+
-        '            <i class="fa fa-pie-chart" aria-hidden="true"> Dashboards and Charts</i>'+
-        '          </label>'+
-        '        </div>'+
-        '       <div class="form-check"><label class="form-check-label"><input class="form-check-input" type="checkbox" checked value="a$p$p" /> <i aria-hidden="true" class="fa fa-cogs"> Applications</i> </label></div>'+
-        '       <div class="form-check"><label class="form-check-label"><input class="form-check-input" type="checkbox" checked value="d$o$c" /> <i aria-hidden="true" class="fa fa-file-text"> Documents</i> </label></div>'+
-        '       <div class="form-check"><label class="form-check-label"><input class="form-check-input" type="checkbox" checked value="w$e$b" /> <i aria-hidden="true" class="fa fa-globe"> Websites</i> </label></div>'+
-        '   </div>'+
-        '</div>';
-        
-        $(".vtpMenu").append($html); 
-        
-        
-        
-        $html = '<div class="row tags clearfix tagSection">'+
+    this.processFilter = function(el){
+        var val = el[0].attributes["data-tags"].value;  
+        if (val === "a$l$l"){
+            for (var i = 0; i < this.blocks.length; i++){               
+                this.blocks[i].filtered = true;               
+            }
+        }else{        
+            for (var i = 0; i < this.blocks.length; i++){
+                if (this.blocks[i].iconTags.indexOf(val) > -1){
+                    this.blocks[i].filtered = true;
+                }else{
+                    this.blocks[i].filtered = false;
+                }
+            }
+        }
+        this.filterAndSearchResults();
+        this.checkNotFound(); 
+    }
+    
+    this.filterAndSearchResults = function(){
+        for (var i = 0; i < this.blocks.length; i++){
+            if (this.blocks[i].filtered && this.blocks[i].searched){
+                this.blocks[i].show();            
+            }else{
+                this.blocks[i].hide(); 
+            }
+        }        
+    }
+    
+    this.createTagButtons = function(){
+        var html = '<div class="row tags clearfix tagSection">'+
         '<div class="tagWrap">'+
         '	<button class="btn btn-sm btn-info">Bridges</button>'+
         '	<button class="btn btn-sm btn-info">Pavement</button>'+
@@ -242,43 +193,23 @@ function Vtp(v) {
         '	<button class="btn btn-sm btn-danger clear">Clear Search</button>'+
         '</div>'+
         '</div>';
-        
-        $(".vtpMenu").append($html); 
-        
-        $('#showVTransMenuLink').click(function(){
-            if ($(".sidebars section").css("display") === "none"){
-                $(".sidebars section").css("display","block");
-                $(this).html("<span style='text-decoration:underline;'>Hide VTrans Menu</span> <i class='fa fa-chevron-circle-up' aria-hidden='true'></i>");
-                $(".vtpMenu").appendTo(".sidebars section");
-                $(".vtpMenu").css("float","inherit");
-                $(".vtpMenu").css("width","100%");
-            }else{
-                $(".sidebars section").css("display","none");
-                $(this).html("<span style='text-decoration:underline;'>Show VTrans Menu</span> <i class='fa fa-chevron-circle-down' aria-hidden='true'></i>");
-                $(".vtpMenu").prependTo(".main-column.main-section");
-                $(".vtpMenu").css("float","left");
-                $(".vtpMenu").css("width","20%");
-                $("html, body").animate({ scrollTop: 0 }, "fast");
-            }
-        });
-        
-        var mql = window.matchMedia("(max-width: 600px)");
-        if (mql.matches){
-            $(".vtpMenu").prependTo(".container-fluid.bricks");
-            $(".vtpMenu").css("float","inherit");
+        $(html).insertBefore(".container-fluid.bricks");        
+    }
+    
+    this.resetBlockVisibility = function(){
+        for (var i = 0; i < this.blocks.length; i++){
+            this.blocks[i].searched = true;
+            this.blocks[i].filtered = true;
+            this.blocks[i].isVisible = true;
         }
-        mql.addListener(function(event) {
-            if(event.matches) {
-                $(".vtpMenu").insertBefore(".container-fluid.bricks");
-                $(".vtpMenu").css("float","inherit");
-                $(".vtpMenu").css("width","100%");
-            } else {
-                $(".vtpMenu").prependTo(".main-column.main-section");
-                $(".vtpMenu").css("width","20%");
-                $(".vtpMenu").css("float","left");
-            }
+        
+        //reset the selected filter to 'All'
+        $("#filterButton span").each(function(){
+                this.innerHTML = "All";          
         });
     }
+    
+  
 };
 
 
@@ -304,17 +235,17 @@ var Block = (function (params){
         this.template = params.template;
         this.domNode = null;
         this.isExtended = false;
+        this.searched = true;
+        this.filtered = true;
     }
     
     Block.prototype.init = function (){
         this.setTags();
-        this.buildSearchableText();        
+        this.buildSearchableText();
+        this.create();
+        this.fill();
     };
 
-    Block.prototype.getTags = function (){
-        return this.tags;
-    };
-    
     Block.prototype.setTags = function (){
         $.each(this.tagSet, $.proxy(function (i, tag) {				            
             if (tag.tag in tagIcons){                 
@@ -373,8 +304,9 @@ var Block = (function (params){
     };
    
     Block.prototype.showExtended = function (){
-        if (this.isExtended) {
-            $('.extended p', this.domNode).html(this.extended)
+        if ($('.extended p', this.domNode).text().length < 10 ) {
+            $('.extended p', this.domNode).html(this.extended);
+            this.extended = undefined;
         }
         this.domNode.removeClass('show-nano').removeClass('show-short').addClass('show-extended');
         var temp = this.domNode;
@@ -424,3 +356,15 @@ function showShort(el) {
 	var block = vtp.getBlockByChildElement(el);
     block.showShort();
 }
+
+
+// dropdown plugin - bootstrap 4.0.6 dropdowns are broken
+/*
+ * jQuery Dropdown: A simple dropdown plugin
+ *
+ * Contribute: https://github.com/claviska/jquery-dropdown
+ *
+ * @license: MIT license: http://opensource.org/licenses/MIT
+ *
+ */
+jQuery&&function($){function t(t,e){var n=t?$(this):e,d=$(n.attr("data-jq-dropdown")),a=n.hasClass("jq-dropdown-open");if(t){if($(t.target).hasClass("jq-dropdown-ignore"))return;t.preventDefault(),t.stopPropagation()}else if(n!==e.target&&$(e.target).hasClass("jq-dropdown-ignore"))return;o(),a||n.hasClass("jq-dropdown-disabled")||(n.addClass("jq-dropdown-open"),d.data("jq-dropdown-trigger",n).show(),r(),d.trigger("show",{jqDropdown:d,trigger:n}))}function o(t){var o=t?$(t.target).parents().addBack():null;if(o&&o.is(".jq-dropdown")){if(!o.is(".jq-dropdown-menu"))return;if(!o.is("A"))return}$(document).find(".jq-dropdown:visible").each(function(){var t=$(this);t.hide().removeData("jq-dropdown-trigger").trigger("hide",{jqDropdown:t})}),$(document).find(".jq-dropdown-open").removeClass("jq-dropdown-open")}function r(){var t=$(".jq-dropdown:visible").eq(0),o=t.data("jq-dropdown-trigger"),r=o?parseInt(o.attr("data-horizontal-offset")||0,10):null,e=o?parseInt(o.attr("data-vertical-offset")||0,10):null;0!==t.length&&o&&t.css(t.hasClass("jq-dropdown-relative")?{left:t.hasClass("jq-dropdown-anchor-right")?o.position().left-(t.outerWidth(!0)-o.outerWidth(!0))-parseInt(o.css("margin-right"),10)+r:o.position().left+parseInt(o.css("margin-left"),10)+r,top:o.position().top+o.outerHeight(!0)-parseInt(o.css("margin-top"),10)+e}:{left:t.hasClass("jq-dropdown-anchor-right")?o.offset().left-(t.outerWidth()-o.outerWidth())+r:o.offset().left+r,top:o.offset().top+o.outerHeight()+e})}$.extend($.fn,{jqDropdown:function(r,e){switch(r){case"show":return t(null,$(this)),$(this);case"hide":return o(),$(this);case"attach":return $(this).attr("data-jq-dropdown",e);case"detach":return o(),$(this).removeAttr("data-jq-dropdown");case"disable":return $(this).addClass("jq-dropdown-disabled");case"enable":return o(),$(this).removeClass("jq-dropdown-disabled")}}}),$(document).on("click.jq-dropdown","[data-jq-dropdown]",t),$(document).on("click.jq-dropdown",o),$(window).on("resize",r)}(jQuery);
