@@ -11,6 +11,7 @@ function Vtp(v) {
         this.getView();
         this.createFilter();
         this.createTagButtons();
+        this.createHelpModal();
         
         var that = this; //just aliasing 'this' for the events
         
@@ -33,7 +34,7 @@ function Vtp(v) {
         });
         
         $('#helpIcon').click(function() {
-           // todo: create some kind of help modal?
+            $('#vtpHelpModal').modal('show');
         }); 
         
         $(".jq-dropdown-menu").on('click', 'a', function() {
@@ -74,9 +75,9 @@ function Vtp(v) {
     }
 
     this.blocksFilledComplete = function(){
-               
+        var that = this;       
         $('.brick-tag').off().click(function() {
-            search($(this).text(), true);
+            that.search($(this).text(), "tags");
         });
         
         this.shoreUpMemory(); // maybe not necessary?
@@ -115,10 +116,8 @@ function Vtp(v) {
                     this.searched = true;
                 }
             });           
-        }
-        
-        this.filterAndSearchResults();
-        this.checkNotFound(); 
+        }        
+        this.applyFilterAndSearchResults();         
     }
     
     this.checkNotFound = function(){
@@ -143,13 +142,13 @@ function Vtp(v) {
         var html = '<div id="filterSelect">Within: <a href="#" data-jq-dropdown="#jq-dropdown-1" id="filterButton"><span>All</span> <i class="fa fa-chevron-circle-down" aria-hidden="true"></i></a>'+
         '<div id="jq-dropdown-1" class="jq-dropdown jq-dropdown-relative">'+
         '    <ul class="jq-dropdown-menu">'+
-        '        <li><a href="#" data-tags="a$l$l"><i class="fa">All</i></a></li>'+
-        '        <li><a href="#" data-tags="m$a$p"><i class="fa fa-map" aria-hidden="true"> Maps</i></a></li>'+
-        '        <li><a href="#" data-tags="d$a$t$a"><i class="fa fa-database" aria-hidden="true"> Data</i></a></li>'+
-        '        <li><a href="#" data-tags="c$h$a$r$t"><i class="fa fa-pie-chart" aria-hidden="true"> Dashboards and Charts</i></a></li>'+
-        '        <li><a href="#" data-tags="a$p$p"><i aria-hidden="true" class="fa fa-cogs"> Applications</i></li>'+
-        '        <li><a href="#" data-tags="d$o$c"><i aria-hidden="true" class="fa fa-file-text"> Documents</i></a></li>'+
-        '        <li><a href="#" data-tags="w$e$b"><i aria-hidden="true" class="fa fa-globe"> Websites</i></a></li>'+
+        '        <li><a href="javascript:;" data-tags="a$l$l"><i class="fa">All</i></a></li>'+
+        '        <li><a href="javascript:;" data-tags="m$a$p"><i class="fa fa-map" aria-hidden="true"> Maps</i></a></li>'+
+        '        <li><a href="javascript:;" data-tags="d$a$t$a"><i class="fa fa-database" aria-hidden="true"> Data</i></a></li>'+
+        '        <li><a href="javascript:;" data-tags="c$h$a$r$t"><i class="fa fa-pie-chart" aria-hidden="true"> Dashboards and Charts</i></a></li>'+
+        '        <li><a href="javascript:;" data-tags="a$p$p"><i aria-hidden="true" class="fa fa-cogs"> Applications</i></li>'+
+        '        <li><a href="javascript:;" data-tags="d$o$c"><i aria-hidden="true" class="fa fa-file-text"> Documents</i></a></li>'+
+        '        <li><a href="javascript:;" data-tags="w$e$b"><i aria-hidden="true" class="fa fa-globe"> Websites</i></a></li>'+
         '    </ul>'+
         '</div></div>';
         $(html).insertAfter("#brickSearch");
@@ -170,11 +169,10 @@ function Vtp(v) {
                 }
             }
         }
-        this.filterAndSearchResults();
-        this.checkNotFound(); 
+        this.applyFilterAndSearchResults();        
     }
     
-    this.filterAndSearchResults = function(){
+    this.applyFilterAndSearchResults = function(){
         for (var i = 0; i < this.blocks.length; i++){
             if (this.blocks[i].filtered && this.blocks[i].searched){
                 this.blocks[i].show();            
@@ -182,6 +180,7 @@ function Vtp(v) {
                 this.blocks[i].hide(); 
             }
         }        
+        this.checkNotFound();
     }
     
     this.createTagButtons = function(){
@@ -190,6 +189,9 @@ function Vtp(v) {
         '	<button class="btn btn-sm btn-info">Bridges</button>'+
         '	<button class="btn btn-sm btn-info">Pavement</button>'+
         '	<button class="btn btn-sm btn-info">Safety</button>'+
+        '	<button class="btn btn-sm btn-info">Projects</button>'+
+        '	<button class="btn btn-sm btn-info">Maintenance</button>'+
+        '	<button class="btn btn-sm btn-info">Winter</button>'+
         '	<button class="btn btn-sm btn-danger clear">Clear Search</button>'+
         '</div>'+
         '</div>';
@@ -207,6 +209,29 @@ function Vtp(v) {
         $("#filterButton span").each(function(){
                 this.innerHTML = "All";          
         });
+    }
+    
+    this.createHelpModal = function(){
+        
+        var html = '<div class="modal fade" id="vtpHelpModal" tabindex="-1" role="dialog" aria-labelledby="vtpHelpTitle" aria-hidden="true">'+
+        '  <div class="modal-dialog modal-lg" role="document">'+
+        '    <div class="modal-content">'+
+        '      <div class="modal-header">'+
+        '        <h5 class="modal-title" id="vtpHelpTitle">VTransparency Help</h5>'+
+        '        <button type="button" class="close" data-dismiss="modal" aria-label="Close">'+
+        '          <span aria-hidden="true">×</span>'+
+        '        </button>'+
+        '      </div>'+
+        '      <div class="modal-body">'+
+        '        Help text here'+
+        '      </div>'+
+        '      <div class="modal-footer">'+
+        '        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>'+
+        '      </div>'+
+        '    </div>'+
+        '  </div>'+
+        '</div>';
+        $(".bi-wrapper").append($(html));
     }
     
   
@@ -301,6 +326,12 @@ var Block = (function (params){
     Block.prototype.showShort = function (){
         this.domNode.removeClass('show-nano').addClass('show-short').removeClass('show-extended');
         this.isExtended = false;
+        var temp = this.domNode;
+        setTimeout(function () {
+            $('html, body').animate({
+                scrollTop: temp.offset().top
+            }, 250);
+        }, 100);
     };
    
     Block.prototype.showExtended = function (){
@@ -314,7 +345,7 @@ var Block = (function (params){
             $('html, body').animate({
                 scrollTop: temp.offset().top
             }, 250);
-        }, 300);
+        }, 100);
         this.isExtended = true;
     };
 
