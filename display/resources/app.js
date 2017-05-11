@@ -18,12 +18,14 @@ function Vtp(v) {
         $('#brickSearch').keyup(Utils.debounce(function() {
             $('.tags .btn:not(.clear)').addClass('btn-info').removeClass('btn-primary');
             that.search($(this).val());
+            ga('send', 'event', 'Search', 'click', 'Search', $(this).val().trim());
         }, 250));
         
         $('.tags .btn:not(.clear)').click(function () {
             $('.tags .btn:not(.clear)').addClass('btn-info').removeClass('btn-primary');
             $(this).removeClass('btn-info').addClass('btn-primary');
             that.search($(this).text(), "tags");
+            ga('send', 'event', 'Search', 'click', 'Search', $(this).text().trim());
         });
         
         $('.tags .btn.clear').click(function () {
@@ -31,6 +33,7 @@ function Vtp(v) {
             $('#brickSearch').val('');
             that.resetBlockVisibility();
             that.search('');
+            ga('send', 'event', 'Search', 'click', 'Search', 'clear');
         });
         
         $('#helpIcon').click(function() {
@@ -43,6 +46,7 @@ function Vtp(v) {
             $("#filterButton span").each(function(){
                 this.innerHTML = html.innerHTML;          
             });
+            ga('send', 'event', 'Filter', 'click', 'Filter', html.innerHTML.trim());
         });
         
     }
@@ -78,6 +82,7 @@ function Vtp(v) {
         var that = this;       
         $('.brick-tag').off().click(function() {
             that.search($(this).text(), "tags");
+            ga('send', 'event', 'Search', 'click', 'Tag', $(this).text().trim());
         });
         
         this.shoreUpMemory(); // maybe not necessary?
@@ -381,11 +386,13 @@ var tagIcons = {chart:{fa:"pie-chart",tag:"c$h$a$r$t"}, map:{fa:"map",tag:"m$a$p
 function showExtended(el) {    
 	var block = vtp.getBlockByChildElement(el);
     block.showExtended();
+    ga('send', 'event', 'Block', 'click', 'Expand', block.title.trim());
 }
 
 function showShort(el) {
 	var block = vtp.getBlockByChildElement(el);
     block.showShort();
+    ga('send', 'event', 'Block', 'click', 'Collapse', block.title.trim());
 }
 
 
