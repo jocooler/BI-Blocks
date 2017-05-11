@@ -79,6 +79,12 @@ iframe {
     margin-bottom: 15px;
 }
 
+/********** IE bug https://github.com/philipwalton/flexbugs/issues/75 see ScottTrenda comments ************/
+/*********** container height was calculating based on original image height.. hence all the white space **********/
+.card-block {
+    min-height: 1px;
+}
+
 /* Search and tags */
 
 #brickSearch {
@@ -127,7 +133,7 @@ iframe {
 #filterSelect a {text-decoration:none; color:#333;}
 /* end dropdown */
 
-/*********** bootstrap 4.0.0-alpha.6 modal is broken. this is temporary fix *************/
+/*********** bootstrap 4.0.0-alpha.6 modal is broken. this is temporary fix (maybe)*************/
 .bi-wrapper .fade.in {
   opacity: 1;
 }
