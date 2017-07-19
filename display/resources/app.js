@@ -229,7 +229,15 @@ function Vtp(v) {
         '        </button>'+
         '      </div>'+
         '      <div class="modal-body">'+
-        '        Help text here'+
+        '		<p>Welcome to VTransparency, the Vermont Agency of Transportation information portal. VTransparency exists to give the public access to data-driven answers and analytics of our performance. Included are maps, performance reports, dashboards, query tools, and data sets each accompanied by narrative to describe what the data means and what our goals are. The data we track is organized into "cards" for easy reference. To see what the card contains, click the Learn More button. '+
+		'		</p><p> '+
+		'		The simplest way to find data is to search for the topic - like "crashes" or "pavement". Use the search box and any cards not about your search will disappear. Click the Learn More button to see more information, more detailed reports, and maps. To clear your search, use the red Clear Search button.' +
+		'		</p><p> ' +
+		'		Another way to find relevant cards is to use the tags at the bottom of each card. Click the tags to see other cards on the same topic.'+
+		'		</p><p>'+
+		'		Each card has a series of icons at the bottom to show what type of data or visualization it contains. You can search for a particular kind using the Within dropdown - for example, see all the maps we\'ve published as a part of VTransparency. Use the Clear Search button to return to the full view.'+
+		'		</p>'+
+		'		'+
         '      </div>'+
         '      <div class="modal-footer">'+
         '        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>'+
