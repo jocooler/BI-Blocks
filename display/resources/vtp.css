@@ -106,9 +106,12 @@ iframe {
 .tagWrap {
     margin: 10px 0 10px 6px;
 }
+
+.brick-tag {cursor:pointer;}
 .brick-tag:hover {
-    text-decoration: underline;
+    text-decoration: underline;    
 }
+
 
 #helpIcon {
     cursor: pointer;
