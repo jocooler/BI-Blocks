@@ -50,6 +50,8 @@ function Vtp(v) {
             ga('send', 'event', 'Filter', 'click', html.innerHTML.trim());
         });
         
+        $('[data-toggle="tooltip"]').tooltip(); //enable bootstrap tooltips
+        
     }
     
     this.getView = function() {
@@ -123,6 +125,7 @@ function Vtp(v) {
                 }
             });           
         }        
+        $('#brickSearch').val(term); // adds term to searchbox
         this.applyFilterAndSearchResults();         
     }
     
@@ -337,7 +340,8 @@ var Block = (function (params){
         this.isVisible = true;
     };
     
-    Block.prototype.showShort = function (){
+    Block.prototype.showShort = function (){        
+        $('#closeExtended', this.domNode).off().remove();
         this.domNode.removeClass('show-nano').addClass('show-short').removeClass('show-extended');
         this.isExtended = false;
         var temp = this.domNode;
@@ -354,6 +358,8 @@ var Block = (function (params){
             this.extended = undefined;
         }
         this.domNode.removeClass('show-nano').removeClass('show-short').addClass('show-extended');
+        $('.card-block', this.domNode).prepend('<span class="fa fa-compress" id="closeExtended" data-toggle="tooltip" title="collapse card" aria-hidden="true"></span>');
+        $("#closeExtended").click($.proxy(function(){this.showShort();},this));
         var temp = this.domNode;
         setTimeout(function () {
             $('html, body').animate({

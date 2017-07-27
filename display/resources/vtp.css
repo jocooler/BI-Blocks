@@ -33,9 +33,7 @@
 .bi-wrapper .form-check-input {
     margin-top: 0;
 }
-h2#page-title {
-    color: #333;
-}
+
 
 /* brick styles */
 
@@ -112,6 +110,17 @@ iframe {
     text-decoration: underline;    
 }
 
+.tagSection .btn-info {background-color:#3e6839; border-color:#253E22;}
+.tagSection .btn-info:hover {background-color:#253E22; border-color:#3e6839;}
+
+.tagSection .btn-danger {background-color#69393e; border-color:#5E3337;}
+.tagSection .btn-danger:hover {background-color:#5E3337; border-color:#69393e;}
+
+.tagSection .btn-primary {background-color:#253E22; border-color:#3e6839;}
+.tagSection .btn-primary:hover {background-color:#3e6839; border-color:#253E22}
+
+#closeExtended {position:absolute; right:8px; top:8px; cursor:pointer; color:#333; font-size:18px; font-weight:550;}
+#closeExtended:hover {color: #3e6839;}
 
 #helpIcon {
     cursor: pointer;
