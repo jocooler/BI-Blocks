@@ -284,14 +284,8 @@ var Block = (function (params){
 
     Block.prototype.setTags = function (){
         $.each(this.tagSet, $.proxy(function (i, tag) {				            
-            if (tag.tag in tagIcons){                 
-                this.icons.push('<i class="v-icons fa fa-' + tagIcons[tag.tag].fa + '" data-tags="' + tagIcons[tag.tag].tag + '" aria-hidden="true"></i>');               
-                this.iconTags.push(tagIcons[tag.tag].tag);
-            }else{
-                this.tags.push(tag.tag); 
-            }
+			this.tags.push(tag.tag); 
         },this));
-        this.icons.sort(); // keep some kind of visual consistancy
         this.tags.sort();
     };
     
@@ -381,8 +375,6 @@ var Utils = {
 }
 
 /************ Window *************/
-
-var tagIcons = {chart:{fa:"pie-chart",tag:"c$h$a$r$t"}, map:{fa:"map",tag:"m$a$p"},data:{fa:"database",tag:"d$a$t$a"},app:{fa:"cogs",tag:"a$p$p"},doc:{fa:"file-text",tag:"d$o$c"},web:{fa:"globe",tag:"w$e$b"}};
 
 function showExtended(el) {    
 	var block = vtp.getBlockByChildElement(el);
