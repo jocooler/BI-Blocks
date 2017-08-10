@@ -87,8 +87,6 @@ function Vtp(v) {
             that.search($(this).text(), "tags");           
             ga('send', 'event', 'TagFilter', 'click', $(this).text().trim());
         });
-        
-        this.shoreUpMemory(); // maybe not necessary?
     }
     
     this.numOfVisibleBlocks = function(){
@@ -99,12 +97,6 @@ function Vtp(v) {
             }
         }
         return ct;
-    }
-    
-    this.shoreUpMemory = function(){
-        for (var i = 0; i < this.blocks.length; i++){
-            this.blocks[i].deletePropertiesNoLongerNeeded();
-        }
     }
     
     this.search = function(term, searchWhat){        
@@ -321,14 +313,6 @@ var Block = (function (params){
             this.searchableTags += this.tags[i];
         },this));
     };
-        
-    Block.prototype.deletePropertiesNoLongerNeeded = function (){
-        this.short = undefined;        
-        this.tagSet = undefined;
-        this.template = undefined;
-        this.query = undefined;
-        this.icons = undefined;
-    }; 
     
     Block.prototype.hide = function () {
         this.domNode.hide("fast");
