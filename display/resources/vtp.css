@@ -22,6 +22,18 @@
     background-color: #244463 !important;
 }
 
+.bi-wrapper a.btn-info {
+    color: #fff !important;
+    background-color: #29abe0 !important;
+    border-color: #29abe0 !important;
+    text-decoration: none !important;
+}
+.bi-wrapper a.btn-info:hover,
+.bi-wrapper a.btn-info:hover i {
+    color: #fff !important;
+    background-color: #33c1fa !important;
+}
+
 /* icon spacing */
 
 .card-footer i {
