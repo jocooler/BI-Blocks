@@ -2,11 +2,9 @@
 	<h4>{{title}}</h4>
 	<hr />
 	<div class="card-text" id="{{blockId}}">
-		<img src="{{query}}" class="img-fluid short"/>
+		<img src="{{query}}" class="img-fluid"/>
 		<p class="card-text short">{{short}}</p>
-		<div class="card-text extended"><p></p></div>
-		<button class="btn btn-primary short" onclick="showExtended(this)">Learn More</button>
-		<button class="btn btn-primary extended" onclick="showShort(this)">Less</button>
+		<a class="btn btn-primary short" href="{{extended}}" target="_blank">Learn More <i class="fa fa-external-link" aria-hidden="true"></i></a>
 	</div>
 </div>
 <div class="card-footer">
