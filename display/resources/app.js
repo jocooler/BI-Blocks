@@ -303,7 +303,6 @@ var Block = (function (params){
     Block.prototype.buildSearchableText = function (){
         this.searchableText = this.title.toLowerCase();
         this.searchableText += this.short.toLowerCase();
-        this.searchableText += this.extended.toLowerCase()
         $.each(this.tags, $.proxy(function(i){
             this.searchableText += this.tags[i];
             this.searchableTags += this.tags[i];
