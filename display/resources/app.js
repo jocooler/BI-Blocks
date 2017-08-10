@@ -66,7 +66,7 @@ function Vtp(v) {
                         template: template,
                         query: r.blocks.query,
                         short: r.blocks.short,
-                        extended: r.blocks.extended,                  
+                        link: r.blocks.link,
                         id: 'block' + Math.random().toString().substring(4) + "-" + Math.random().toString().substring(3),
                         tagSet: r.tags
                     };
@@ -263,7 +263,7 @@ var Block = (function (params){
         this.query = params.query;
         this.title = params.title;
         this.short = params.short;
-        this.extended = params.extended;
+        this.link = params.link;
         this.searchableText = "";
         this.searchableTags = "";
         this.template = params.template;
