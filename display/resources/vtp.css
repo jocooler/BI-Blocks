@@ -80,6 +80,18 @@ iframe {
     float: right;
 }
 
+/* For image cards, keep the image scaled and centered */
+a.image-link {
+	display:block;
+	width:100%;
+	height:20vh;
+	min-height:100px;
+	background-position:center top;
+	background-repeat:no-repeat;
+	background-size:cover;
+	text-decoration:none;
+	margin-bottom:5px;
+}
 /* brick cards need to be full height and have some space below when they're expanded */
 
 .brick .card {
@@ -200,6 +212,8 @@ iframe {
     -o-transition: opacity .15s linear;
     transition: opacity .15s linear;
 }
+
+
 
 
 /***************** end modal***********************************************************/
