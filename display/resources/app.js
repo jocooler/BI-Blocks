@@ -68,6 +68,7 @@ function Vtp(v) {
                         short: r.blocks.short,
                         link: r.blocks.link,
 						info: r.blocks.info,
+						subtitle: r.blocks.subtitle,
                         id: 'block' + Math.random().toString().substring(4) + "-" + Math.random().toString().substring(3),
                         tagSet: r.tags
                     };
@@ -266,6 +267,7 @@ var Block = (function (params){
         this.short = params.short;
         this.link = params.link;
 		this.info = params.info;
+		this.subtitle = params.subtitle;
         this.searchableText = "";
         this.searchableTags = "";
         this.template = params.template;
