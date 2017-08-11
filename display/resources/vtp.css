@@ -34,12 +34,6 @@
     background-color: #33c1fa !important;
 }
 
-/* icon spacing */
-
-.card-footer i {
-    padding-right: 2px;
-}
-
 /* checkbox labels */
 
 .bi-wrapper .form-check-input {
@@ -95,6 +89,29 @@ a.image-link {
 	background-size:cover;
 	text-decoration:none;
 	margin-bottom:5px;
+}
+
+
+/* Bottom align link buttons */
+
+p.card-text { 
+	margin-bottom:35px;
+}
+
+.card-block {
+	position:relative;
+}
+
+.brick .card-text .btn {
+	position:absolute;
+	bottom:10px;
+}
+
+.brick .card-text .btn.btn-primary {
+	right:10px;
+}
+.brick .card-text .btn.btn-info {
+	left:10px;
 }
 /* brick cards need to be full height and have some space below when they're expanded */
 
