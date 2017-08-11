@@ -80,6 +80,10 @@ iframe {
     float: right;
 }
 
+.card-footer i.v-icons {
+	display:none;
+}
+
 /* For image cards, keep the image scaled and centered */
 a.image-link {
 	display:block;
