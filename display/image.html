@@ -1,9 +1,21 @@
+<style>
+a.image-link {
+	display:block;
+	width:100%;
+	height:20vh;
+	min-height:50px;
+	background-position:center center;
+	background-repeat:no-repeat;
+	background-size:contain;
+	text-decoration:none;
+}
+</style>
 <div class="card-block">
 	<h4>{{title}}</h4>
 	<h4><small>{{subtitle}}</small></h4>
 	<hr />
 	<div class="card-text" id="{{blockId}}">
-		<img src="{{query}}" class="img-fluid"/>
+		<a class="image-link" href="{{link}}" target="_blank" style="background-image:url('{{query}}')"></a>
 		<p class="card-text short">{{short}}</p>
 		{{#info}}
 		<a class="btn btn-info short" href="{{info}}" target="_blank">Learn More</a>
