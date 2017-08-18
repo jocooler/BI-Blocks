@@ -1,11 +1,38 @@
 "use strict";
 
+var Settings = {    
+    apiPath : "https://vtransapi.aot.state.vt.us/api/v2/",
+    apiKey : "d1b885b8d202ab320717b54d9265e360db151e69be811f38da2f24fdd09333a5",
+    textVersionPath : "http://www.aot.state.vt.us/vtpplain/plain.aspx",
+    vtpPath : "/content/vtp",
+    vtpView : "Demo View 1"
+};
+
+function load(){    
+	$(".row").html(""); //drupal likes to insert &nbsp; into empty containers when editing the page and im tired of forgetting and having to delete it.
+    $("#linkTextVersion").css("display","inline"); // initially hidden incase js is disabled or viewing textonly.
+    
+    if (Utils.getParameterByName("t") == "1"){ // check for text only version and load iframe if so.       
+        $('<iframe>', {src: Settings.vtpPath,
+           "class": 'textOnlyFrame', frameborder: 0, scrolling: 'no'}).insertAfter(".bi-wrapper");
+        $("#linkTextVersion a").attr("href",Settings.vtpPath);
+        $("#linkTextVersion a").text("Interactive Version");
+        return;
+    }
+    
+    $(".bi-wrapper").css("display","block"); // initially hidden incase js is disabled or viewing textonly.
+    $("#brickSearch").css("display","inline-block"); // initially hidden incase js is disabled or viewing textonly.
+    
+    var vtp = new Vtp(Settings.vtpView);
+    vtp.init();    
+}
+
 function Vtp(v) {
     this.view = v;
     this.blocks = [];
     this.target = '';
-	this.API_KEY = 'd1b885b8d202ab320717b54d9265e360db151e69be811f38da2f24fdd09333a5';
-	this.VTRANS_API = 'https://vtransapi.aot.state.vt.us/api/v2/';
+	this.API_KEY = Settings.apiKey;
+	this.VTRANS_API = Settings.apiPath;
     
     this.init = function(){
         this.getView();
@@ -142,7 +169,7 @@ function Vtp(v) {
     }
     
     this.createFilter = function(){ 
-        var html = '<div id="filterSelect">Within: <a href="#" data-jq-dropdown="#jq-dropdown-1" id="filterButton"><span>All</span> <i class="fa fa-chevron-circle-down" aria-hidden="true"></i></a>'+
+        var html = '<div id="filterSelect">Within: <a href="#" data-jq-dropdown="#jq-dropdown-1" id="filterButton"><span>All Types</span> <i class="fa fa-chevron-circle-down" aria-hidden="true"></i></a>'+
         '<div id="jq-dropdown-1" class="jq-dropdown jq-dropdown-relative">'+
         '    <ul class="jq-dropdown-menu">'+
         '        <li><a href="javascript:;" data-tags="a$l$l"><i class="fa">All</i></a></li>'+
@@ -378,6 +405,15 @@ var Utils = {
             arr.splice(found, 1);
             found = arr.indexOf(what);
         }
+    },
+    getParameterByName : function(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
     }    
 }
 
