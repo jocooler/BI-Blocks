@@ -13,7 +13,7 @@ function load(){
     $("#linkTextVersion").css("display","inline"); // initially hidden incase js is disabled or viewing textonly.
     
     if (Utils.getParameterByName("t") == "1"){ // check for text only version and load iframe if so.       
-        $('<iframe>', {src: Settings.vtpPath,
+        $('<iframe>', {src: Settings.textVersionPath,
            "class": 'textOnlyFrame', frameborder: 0, scrolling: 'no'}).insertAfter(".bi-wrapper");
         $("#linkTextVersion a").attr("href",Settings.vtpPath);
         $("#linkTextVersion a").text("Interactive Version");
