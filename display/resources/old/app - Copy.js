@@ -40,6 +40,7 @@ function Vtp(v) {
         this.getView();
         this.createFilter();
         this.createTagButtons();
+        this.createHelpModal();
         
         var that = this; //just aliasing 'this' for the events
         
@@ -64,14 +65,18 @@ function Vtp(v) {
             ga('send', 'event', 'Search', 'click', 'clear');
         });
         
+        $('#helpIcon').click(function() {
+            $('#vtpHelpModal').modal('show');
+            ga('send', 'event', 'Help', 'click', 'show');
+        }); 
         
-        $(".dropdown-menu").on('click', 'a', function() {
+        $(".jq-dropdown-menu").on('click', 'a', function() {
             that.processFilter($(this));
-            var item = $("span", $(this))[0];
-            $("#dropdownMenu").each(function(){
-                this.innerHTML = item.innerHTML;          
+            var html = $("i", $(this))[0];
+            $("#filterButton span").each(function(){
+                this.innerHTML = html.innerHTML;          
             });
-            ga('send', 'event', 'Filter', 'click', item.innerHTML.trim());
+            ga('send', 'event', 'Filter', 'click', html.innerHTML.trim());
         });
         
         $('[data-toggle="tooltip"]').tooltip(); //enable bootstrap tooltips
@@ -166,17 +171,32 @@ function Vtp(v) {
     }
     
     this.createFilter = function(){ 
-        var html = '<div class="dropdown" id="filterSelect">Within: <a href="#" class="dropdown-toggle" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">All Types</a>'+
-        '<div class="dropdown-menu" aria-labelledby="dropdownMenu">'+
-        '    <a href="javascript:;" class="dropdown-item" data-tags="a$l$l"><i class="fa fa-fw"> </i>&nbsp;&nbsp;<span>All Types</span></a>'+
-        '    <a href="javascript:;" class="dropdown-item" data-tags="m$a$p"><i class="fa fa-fw fa-map" aria-hidden="true"></i>&nbsp;&nbsp;<span>Maps</span></a>'+
-        '    <a href="javascript:;" class="dropdown-item" data-tags="d$a$t$a"><i class="fa fa-fw fa-database" aria-hidden="true"></i>&nbsp;&nbsp;<span>Data</span></a>'+
-        '    <a href="javascript:;" class="dropdown-item" data-tags="c$h$a$r$t"><i class="fa fa-fw fa-pie-chart" aria-hidden="true"></i>&nbsp;&nbsp;<span>Dashboards and Charts</span></a>'+
-        '    <a href="javascript:;" class="dropdown-item" data-tags="a$p$p"><i aria-hidden="true" class="fa fa-fw fa-cogs"></i>&nbsp;&nbsp;<span>Applications</span></a>'+
-        '    <a href="javascript:;" class="dropdown-item" data-tags="d$o$c"><i aria-hidden="true" class="fa fa-fw fa-file-text"></i>&nbsp;&nbsp;<span>Documents</span></a>'+
-        '    <a href="javascript:;" class="dropdown-item" data-tags="w$e$b"><i aria-hidden="true" class="fa fa-fw fa-globe"></i>&nbsp;&nbsp;<span>Websites</span></a>'+
+        var html = '<div id="filterSelect">Within: <a href="#" data-jq-dropdown="#jq-dropdown-1" id="filterButton"><span>All Types</span> <i class="fa fa-chevron-circle-down" aria-hidden="true"></i></a>'+
+        '<div id="jq-dropdown-1" class="jq-dropdown jq-dropdown-relative">'+
+        '    <ul class="jq-dropdown-menu">'+
+        '        <li><a href="javascript:;" data-tags="a$l$l"><i class="fa">All Types</i></a></li>'+
+        '        <li><a href="javascript:;" data-tags="m$a$p"><i class="fa fa-map" aria-hidden="true"><span class="ff"> Maps</span></i></a></li>'+
+        '        <li><a href="javascript:;" data-tags="d$a$t$a"><i class="fa fa-database" aria-hidden="true"> Data</i></a></li>'+
+        '        <li><a href="javascript:;" data-tags="c$h$a$r$t"><i class="fa fa-pie-chart" aria-hidden="true"> Dashboards and Charts</i></a></li>'+
+        '        <li><a href="javascript:;" data-tags="a$p$p"><i aria-hidden="true" class="fa fa-cogs"> Applications</i></li>'+
+        '        <li><a href="javascript:;" data-tags="d$o$c"><i aria-hidden="true" class="fa fa-file-text"> Documents</i></a></li>'+
+        '        <li><a href="javascript:;" data-tags="w$e$b"><i aria-hidden="true" class="fa fa-globe"> Websites</i></a></li>'+
+        '    </ul>'+
         '</div></div>';
-        $(html).insertAfter("#brickSearch");
+        
+        
+        var strVar="";
+        strVar += "<div class=\"dropdown\">";
+        strVar += "  <a class=\"dropdown-toggle\" id=\"dropdownMenu\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">";
+        strVar += "    Dropdown a";
+        strVar += "  <\/a>";
+        strVar += "  <div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenu\">";
+        strVar += "    <a class=\"dropdown-item\" href=\"#\">Action<\/a>";
+        strVar += "    <a class=\"dropdown-item\" href=\"#\">Another action<\/a>";
+        strVar += "    <a class=\"dropdown-item\" href=\"#\">Something else here<\/a>";
+        strVar += "  <\/div>";
+        strVar += "<\/div>";
+        $(strVar).insertAfter("#brickSearch");
     }
 
     this.processFilter = function(el){
@@ -315,6 +335,35 @@ var Block = (function (params){
         this.domNode.show("fast");
         this.isVisible = true;
     };
+    
+    Block.prototype.showShort = function (){        
+        $('#closeExtended', this.domNode).off().remove();
+        this.domNode.removeClass('show-nano').addClass('show-short').removeClass('show-extended');
+        this.isExtended = false;
+        var temp = this.domNode;
+        setTimeout(function () {
+            $('html, body').animate({
+                scrollTop: temp.offset().top
+            }, 250);
+        }, 100);
+    };
+   
+    Block.prototype.showExtended = function (){
+        if ($('.extended p', this.domNode).text().length < 10 ) {
+            $('.extended p', this.domNode).html(this.extended);
+            this.extended = undefined;
+        }
+        this.domNode.removeClass('show-nano').removeClass('show-short').addClass('show-extended');
+        $('.card-block', this.domNode).prepend('<span class="fa fa-compress" id="closeExtended" data-toggle="tooltip" title="collapse card" aria-hidden="true"></span>');
+        $("#closeExtended").click($.proxy(function(){this.showShort();},this));
+        var temp = this.domNode;
+        setTimeout(function () {
+            $('html, body').animate({
+                scrollTop: temp.offset().top
+            }, 250);
+        }, 100);
+        this.isExtended = true;
+    };
 
     return Block;
 }());
@@ -353,3 +402,27 @@ var Utils = {
 /************ Window *************/
 
 var tagIcons = {chart:{fa:"pie-chart",tag:"c$h$a$r$t"}, map:{fa:"map",tag:"m$a$p"},data:{fa:"database",tag:"d$a$t$a"},app:{fa:"cogs",tag:"a$p$p"},doc:{fa:"file-text",tag:"d$o$c"},web:{fa:"globe",tag:"w$e$b"}};
+
+function showExtended(el) {    
+	var block = vtp.getBlockByChildElement(el);
+    block.showExtended();
+    ga('send', 'event', 'BlockExpand', 'click', block.title.trim());
+}
+
+function showShort(el) {
+	var block = vtp.getBlockByChildElement(el);
+    block.showShort();
+    ga('send', 'event', 'BlockCollapse', 'click', block.title.trim());
+}
+
+
+// dropdown plugin - bootstrap 4.0.6 dropdowns are broken
+/*
+ * jQuery Dropdown: A simple dropdown plugin
+ *
+ * Contribute: https://github.com/claviska/jquery-dropdown
+ *
+ * @license: MIT license: http://opensource.org/licenses/MIT
+ *
+ */
+jQuery&&function($){function t(t,e){var n=t?$(this):e,d=$(n.attr("data-jq-dropdown")),a=n.hasClass("jq-dropdown-open");if(t){if($(t.target).hasClass("jq-dropdown-ignore"))return;t.preventDefault(),t.stopPropagation()}else if(n!==e.target&&$(e.target).hasClass("jq-dropdown-ignore"))return;o(),a||n.hasClass("jq-dropdown-disabled")||(n.addClass("jq-dropdown-open"),d.data("jq-dropdown-trigger",n).show(),r(),d.trigger("show",{jqDropdown:d,trigger:n}))}function o(t){var o=t?$(t.target).parents().addBack():null;if(o&&o.is(".jq-dropdown")){if(!o.is(".jq-dropdown-menu"))return;if(!o.is("A"))return}$(document).find(".jq-dropdown:visible").each(function(){var t=$(this);t.hide().removeData("jq-dropdown-trigger").trigger("hide",{jqDropdown:t})}),$(document).find(".jq-dropdown-open").removeClass("jq-dropdown-open")}function r(){var t=$(".jq-dropdown:visible").eq(0),o=t.data("jq-dropdown-trigger"),r=o?parseInt(o.attr("data-horizontal-offset")||0,10):null,e=o?parseInt(o.attr("data-vertical-offset")||0,10):null;0!==t.length&&o&&t.css(t.hasClass("jq-dropdown-relative")?{left:t.hasClass("jq-dropdown-anchor-right")?o.position().left-(t.outerWidth(!0)-o.outerWidth(!0))-parseInt(o.css("margin-right"),10)+r:o.position().left+parseInt(o.css("margin-left"),10)+r,top:o.position().top+o.outerHeight(!0)-parseInt(o.css("margin-top"),10)+e}:{left:t.hasClass("jq-dropdown-anchor-right")?o.offset().left-(t.outerWidth()-o.outerWidth())+r:o.offset().left+r,top:o.offset().top+o.outerHeight()+e})}$.extend($.fn,{jqDropdown:function(r,e){switch(r){case"show":return t(null,$(this)),$(this);case"hide":return o(),$(this);case"attach":return $(this).attr("data-jq-dropdown",e);case"detach":return o(),$(this).removeAttr("data-jq-dropdown");case"disable":return $(this).addClass("jq-dropdown-disabled");case"enable":return o(),$(this).removeClass("jq-dropdown-disabled")}}}),$(document).on("click.jq-dropdown","[data-jq-dropdown]",t),$(document).on("click.jq-dropdown",o),$(window).on("resize",r)}(jQuery);
