@@ -12,7 +12,6 @@ function load(){
 	$(".row").html(""); //drupal likes to insert &nbsp; into empty containers when editing the page and im tired of forgetting and having to delete it.
     $("#linkTextVersion").css("display","inline"); // initially hidden incase js is disabled or viewing textonly.
     
-
     if (Utils.getParameterByName("t") == "1"){ // check for text only version and load iframe if so.       
         $('<iframe>', {src: Settings.textVersionPath,
            "class": 'textOnlyFrame', frameborder: 0, scrolling: 'no'}).insertAfter(".bi-wrapper");
@@ -46,14 +45,14 @@ function Vtp(v) {
         $('#brickSearch').keyup(Utils.debounce(function() {
             $('.tags .btn:not(.clear)').addClass('btn-info').removeClass('btn-primary');
             that.search($(this).val());
-            ga('send', 'event', 'Search', 'click', $(this).val().trim());
+            ga('send', 'event', 'vtpSearch', 'click', $(this).val().trim());
         }, 250));
         
         $('.tags .btn:not(.clear)').click(function () {
             $('.tags .btn:not(.clear)').addClass('btn-info').removeClass('btn-primary');
             $(this).removeClass('btn-info').addClass('btn-primary');
             that.search($(this).text(), "tags");
-            ga('send', 'event', 'Search', 'click', $(this).text().trim());
+            ga('send', 'event', 'vtpSearch', 'click', $(this).text().trim());
         });
         
         $('.tags .btn.clear').click(function () {
@@ -61,7 +60,7 @@ function Vtp(v) {
             $('#brickSearch').val('');
             that.resetBlockVisibility();
             that.search('');
-            ga('send', 'event', 'Search', 'click', 'clear');
+            ga('send', 'event', 'vtpSearch', 'click', 'clear');
         });
         
         
@@ -71,7 +70,7 @@ function Vtp(v) {
             $("#dropdownMenu").each(function(){
                 this.innerHTML = item.innerHTML;          
             });
-            ga('send', 'event', 'Filter', 'click', item.innerHTML.trim());
+            ga('send', 'event', 'vtpFilter', 'click', item.innerHTML.trim());
         });
         
         $('[data-toggle="tooltip"]').tooltip(); //enable bootstrap tooltips
@@ -90,6 +89,7 @@ function Vtp(v) {
                         template: template,
                         query: r.blocks.query,
                         short: r.blocks.short,
+                        keywords: r.blocks.keywords,
                         link: r.blocks.link,
 						info: r.blocks.info,
 						subtitle: r.blocks.subtitle,
@@ -111,7 +111,7 @@ function Vtp(v) {
         var that = this;       
         $('.brick-tag').off().click(function() {
             that.search($(this).text(), "tags");           
-            ga('send', 'event', 'TagFilter', 'click', $(this).text().trim());
+            ga('send', 'event', 'vtpTagFilter', 'click', $(this).text().trim());
         });
     }
     
@@ -201,7 +201,9 @@ function Vtp(v) {
         for (var i = 0; i < this.blocks.length; i++){
             if (this.blocks[i].filtered && this.blocks[i].searched){
                 this.blocks[i].show();            
-            }else{
+            } else if (this.blocks[i].title == 'Open Data Portal') { //always show open data portal
+				this.blocks[i].show();
+			}else{
                 this.blocks[i].hide(); 
             }
         }        
@@ -231,8 +233,8 @@ function Vtp(v) {
         }
         
         //reset the selected filter to 'All'
-        $("#filterButton span").each(function(){
-                this.innerHTML = "All";          
+        $("#dropdownMenu").each(function(){
+                this.innerHTML = "All Types";          
         });
     } 
 };
@@ -264,6 +266,7 @@ var Block = (function (params){
         this.isExtended = false;
         this.searched = true;
         this.filtered = true;
+        this.keywords = params.keywords || "";
     }
     
     Block.prototype.init = function (){
@@ -300,6 +303,7 @@ var Block = (function (params){
     Block.prototype.buildSearchableText = function (){
         this.searchableText = this.title.toLowerCase();
         this.searchableText += this.short.toLowerCase();
+        this.searchableText += this.keywords.toLowerCase();
         $.each(this.tags, $.proxy(function(i){
             this.searchableText += this.tags[i];
             this.searchableTags += this.tags[i];

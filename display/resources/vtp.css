@@ -1,21 +1,15 @@
-/*** override some new VIC styles that are adding margins ***/
-#content .field-name-body .field-item div {line-height:initial; margin:initial;}
-
-/* fix for v5 box-sizing. not sure if v6 needs it */
-
-.main-content,
-.main-content *,
-.main-content *::before,
-.main-content *::after {
-    -webkit-box-sizing: inherit;
-    box-sizing: inherit;   
+/*** override some new VIC styles that are adding margins
+#content .field-name-body .field-item is placed in front of rules with margins and line-heights to gain precedence.
+**/
+#content .field-name-body .field-item div {
+    line-height: initial;
+	margin: auto 0; /*IE fix */
+    margin: initial;
+}
+.main-content {
+    font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #3E3F3A;
 }
-
-.main-content { font-family:"Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;}
-
-/*anchor buttons needed to be restyled*/
-
 .bi-wrapper a.btn-primary {
     color: #fff !important;
     background-color: #325D88 !important;
@@ -27,7 +21,6 @@
     color: #fff !important;
     background-color: #244463 !important;
 }
-
 .bi-wrapper a.btn-info {
     color: #333 !important;
     background-color: #dcdcc3 !important;
@@ -39,83 +32,54 @@
     color: #333 !important;
     background-color: #b0b09c !important;
 }
-
-
-/* brick styles */
-
-.show-short .extended {
-    display: none;
-}
-.show-extended .short {
-    display: none;
-}
-.show-nano .short,
-.show-nano .extended {
-    display: none;
-}
-.show-extended {
-    flex: 0 0 100%!important;
-    max-width: 100% !important;
-}
-
 .brick {
     transition: width 300ms, height 300ms;
 }
 .card .btn-primary {
     float: right;
 }
-
 .bi-wrapper .card-footer {
     background-color: #F8F5F0;
     border-top: 1px solid #DFD7CA;
 }
-    
 .card-footer i.v-icons {
-	display:none;
+    display: none;
 }
-
 /* For image cards, keep the image scaled and centered */
 #content .field-name-body .field-item a.image-link {
-	display:block;
-	width:100%;
-	height:20vh;
-	min-height:100px;
-	background-position:center top;
-	background-repeat:no-repeat;
-	background-size:cover;
-	text-decoration:none;
-	margin-bottom:5px;
+    display: block;
+    width: 100%;
+    height: 20vh;
+    min-height: 100px;
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    text-decoration: none;
+    margin-bottom: 5px;
 }
-
-
 /* Bottom align link buttons */
-
-#content .field-name-body .field-item p.card-text { 
-	margin-bottom:35px;
+#content .field-name-body .field-item p.card-text {
+    margin-bottom: 35px;
 }
-
 .bi-wrapper .card-block {
-    position:relative;
+    position: relative;
     -webkit-box-flex: 1;
     -webkit-flex: 1 1 auto;
     -ms-flex: 1 1 auto;
     flex: 1 1 auto;
     padding: 1.25rem;
 }
-
 .brick .card-text .btn {
-	position:absolute;
-	bottom:10px;
+    position: absolute;
+    bottom: 10px;
 }
-
 .brick .card-text .btn.btn-primary {
-	right:10px;
+    right: 10px;
 }
 .brick .card-text .btn.btn-info {
-	left:10px;
+    left: 10px;
 }
 /* brick cards need to be full height and have some space below when they're expanded */
-
 .bi-wrapper .brick .card {
     height: 100%;
     border: 1px solid rgba(0, 0, 0, 0.2);
@@ -123,20 +87,17 @@
 #content .field-name-body .field-item .brick {
     margin-bottom: 15px;
 }
-
 /********** IE bug https://github.com/philipwalton/flexbugs/issues/75 see ScottTrenda comments ************/
 /*********** container height was calculating based on original image height.. hence all the white space **********/
 .card-block {
     min-height: 1px;
 }
-
 /* Search and tags */
-
 #content .field-name-body .field-item #brickSearch {
     max-width: 600px;
     margin: 0;
     margin-bottom: 15px;
-    width:90%;
+    width: 90%;
 }
 #content .field-name-body .field-item .nothingFound {
     display: none;
@@ -144,72 +105,87 @@
     margin: 0 0 0 10px;
     font-weight: bold;
     color: #cacaca;
-    padding-left:0px;
+    padding-left: 0px;
 }
 #content .field-name-body .field-item .tags .btn {
     margin: 2px 2px;
-    cursor:pointer;
+    cursor: pointer;
 }
 #content .field-name-body .field-item .tagWrap {
     margin: 10px 0 10px 0px;
 }
-
-.brick-tag {cursor:pointer;}
-.brick-tag:hover {
-    text-decoration: underline;    
-}
-
-.tagSection .btn-info {background-color:#3e6839; border-color:#253E22;}
-.tagSection .btn-info:hover {background-color:#253E22; border-color:#3e6839;}
-
-.tagSection .btn-danger {background-color#69393e; border-color:#5E3337;}
-.tagSection .btn-danger:hover {background-color:#5E3337; border-color:#69393e;}
-
-.tagSection .btn-primary {background-color:#253E22; border-color:#3e6839;}
-.tagSection .btn-primary:hover {background-color:#3e6839; border-color:#253E22}
-
-#closeExtended {position:absolute; right:8px; top:8px; cursor:pointer; color:#333; font-size:18px; font-weight:550;}
-#closeExtended:hover {color: #3e6839;}
-
-#helpIcon {
+.brick-tag {
     cursor: pointer;
 }
-#helpIcon:hover {
-    color: #3e6839;
+.brick-tag:hover {
+    text-decoration: underline;
 }
-
+.tagSection .btn-info {
+    background-color: #3e6839;
+    border-color: #253E22;
+}
+.tagSection .btn-info:hover {
+    background-color: #253E22;
+    border-color: #3e6839;
+}
+.tagSection .btn-danger {
+    background-color#69393e;
+    border-color: #5E3337;
+}
+.tagSection .btn-danger:hover {
+    background-color: #5E3337;
+    border-color: #69393e;
+}
+.tagSection .btn-primary {
+    background-color: #253E22;
+    border-color: #3e6839;
+}
+.tagSection .btn-primary:hover {
+    background-color: #3e6839;
+    border-color: #253E22
+}
 #content .field-name-body .field-item .row.tagSection {
     width: 100%;
-    margin-left:-1px;
+    margin-left: -1px;
 }
-
 #content .field-name-body .field-item .container-fluid.bricks {
     margin-top: 20px;
     margin-left: -12px !important;
     padding-left: 0px !important;
 }
-#content .field-name-body .field-item .container-fluid.bricks .row{
-    margin-left:-2px;
+#content .field-name-body .field-item .container-fluid.bricks .row {
+    margin-left: -2px;
 }
-
-#content .field-name-body .field-item #subTitle {margin:0 0 16px 0; font-weight:bold;}
-#content .field-name-body .field-item #subMenu {padding-bottom:8px;}
-
+#content .field-name-body .field-item #subTitle {
+    margin: 0 0 16px 0;
+    font-weight: bold;
+}
+#content .field-name-body .field-item #subMenu {
+    padding-bottom: 8px;
+}
 /************** dropdown  ********/
-
-#content .field-name-body .field-item #filterSelect {float:left; line-height:2.5;margin-left: 8px;}
-#filterSelect a {text-decoration:none !important; color:#333;}
+#content .field-name-body .field-item #filterSelect {
+    float: left;
+    line-height: 2.5;
+    margin-left: 8px;
+}
+#filterSelect a {
+    text-decoration: none !important;
+    color: #333;
+}
 /* end dropdown */
-
-
-
 /*********** text only stuff ********************/
-.textOnlyFrame {width:800px; height:2400px; border:0; margin-left:-10px;}
+.textOnlyFrame {
+    width: 800px;
+    height: 2400px;
+    border: 0;
+    margin-left: -10px;
+}
 /*************/
-
-
 /* bootstrap 4.0.0 beta stuff */
-
-.bi-wrapper .container-fluid {width:inherit;}
-
-.bi-wrapper hr {border-top-color: rgba(0, 0, 0, 0.2);}
+.bi-wrapper .container-fluid {
+    width: inherit;
+}
+.bi-wrapper hr {
+    border-top-color: rgba(0, 0, 0, 0.2);
+}
