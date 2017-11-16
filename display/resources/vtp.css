@@ -189,3 +189,6 @@
 .bi-wrapper hr {
     border-top-color: rgba(0, 0, 0, 0.2);
 }
+
+/*** hide cms search***/
+#header-right{visibility:hidden;}
