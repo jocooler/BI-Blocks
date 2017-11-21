@@ -80,7 +80,7 @@ function Vtp(v) {
     this.getView = function() {
         $.get(this.VTRANS_API + "legos/_table/views?fields=*&related=*&order=layout_order asc&filter=view%3D" + this.view + "&api_key=" + this.API_KEY, $.proxy(function (response) {
            var blockCount = response.resource.length;
-           $.each(response.resource, $.proxy(function (i, r) {
+		   $.each(response.resource, $.proxy(function (i, r) {
                $.get(r.blocks.template, $.proxy(function (template) {
                     var params = {
                         order: r.layout_order,
@@ -98,8 +98,8 @@ function Vtp(v) {
                     };
                     var block = new Block(params);
                     block.init();
-                    this.blocks.push(block);                
-                    if (blockCount >= this.blocks.length){ 
+                    this.blocks.push(block);     
+                    if (this.blocks.length >= blockCount){ 
                         this.blocksFilledComplete();
                     }
                }, this));
@@ -108,12 +108,28 @@ function Vtp(v) {
     }
 
     this.blocksFilledComplete = function(){
+		this.renderBlocks();
         var that = this;       
         $('.brick-tag').off().click(function() {
             that.search($(this).text(), "tags");           
             ga('send', 'event', 'vtpTagFilter', 'click', $(this).text().trim());
-        });
+        });	
     }
+	
+	this.renderBlocks = function() {
+		// block order gets messed up due to async block template call. re-ordering.
+		// other option is to place and order blocks as they come in?
+		this.blocks = this.blocks.sort(function(a, b){
+			var keyA = new Date(a.order),
+				keyB = new Date(b.order);
+			if(keyA < keyB) return -1;
+			if(keyA > keyB) return 1;
+			return 0;
+		});	
+		for (var i = 0; i< this.blocks.length; i++){
+			this.blocks[i].render();
+		}
+	}
     
     this.numOfVisibleBlocks = function(){
         var ct = 0;
@@ -291,13 +307,15 @@ var Block = (function (params){
     
     Block.prototype.create = function (){
         this.domNode = $(Mustache.render('<div class="brick {{className}}" id="{{id}}" data-tags="{{#tags}}{{.}} {{/tags}}"><div class="card"></div></div>', this));
-        $('body .container-fluid.bricks>.row:last-of-type').append(this.domNode);
-        
     };
     
     Block.prototype.fill = function (){
         var $html = $(Mustache.render(this.template, this));
         $('.card', $(this.domNode)).append($html);
+    };
+	
+	Block.prototype.render = function (){
+        $('body .container-fluid.bricks>.row:last-of-type').append(this.domNode);
     };
     
     Block.prototype.buildSearchableText = function (){
