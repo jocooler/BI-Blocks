@@ -229,13 +229,15 @@ function Vtp(v) {
     this.createTagButtons = function(){
         var html = '<div class="row tags clearfix tagSection">'+
         '<div class="tagWrap">'+
-        '	<button class="btn btn-sm btn-info">Bridges</button>'+
+		'	<button class="btn btn-sm btn-info">Winter</button>'+
+        '	<button class="btn btn-sm btn-info">Projects</button>'+
         '	<button class="btn btn-sm btn-info">Pavement</button>'+
         '	<button class="btn btn-sm btn-info">Safety</button>'+
-        '	<button class="btn btn-sm btn-info">Projects</button>'+
+        '	<button class="btn btn-sm btn-info">Bridges</button>'+
         '	<button class="btn btn-sm btn-info">Maintenance</button>'+
-        '	<button class="btn btn-sm btn-info">Winter</button>'+
-        '	<button class="btn btn-sm btn-danger clear">Clear Search</button>'+
+        '	<button class="btn btn-sm btn-info">Rail</button>'+
+		'	<button class="btn btn-sm btn-info">Travel</button>'+
+        '	<button class="btn btn-sm btn-danger clear">Reset All Filters</button>'+
         '</div>'+
         '</div>';
         $(html).insertBefore(".container-fluid.bricks");        
@@ -290,6 +292,7 @@ var Block = (function (params){
         this.buildSearchableText();
         this.create();
         this.fill();
+		this.events();
     };
 
     Block.prototype.setTags = function (){
@@ -312,6 +315,13 @@ var Block = (function (params){
     Block.prototype.fill = function (){
         var $html = $(Mustache.render(this.template, this));
         $('.card', $(this.domNode)).append($html);
+    };
+	
+	Block.prototype.events = function (){
+		var link = this.link;
+        $('.card-head', $(this.domNode)).click(function(){
+			window.open(link,'_blank');			
+		});
     };
 	
 	Block.prototype.render = function (){
