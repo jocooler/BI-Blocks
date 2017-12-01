@@ -240,7 +240,7 @@ function Vtp(v) {
         '	<button class="btn btn-sm btn-danger clear">Reset All Filters</button>'+
         '</div>'+
         '</div>';
-        $(html).insertBefore(".container-fluid.bricks");        
+        $(html).prependTo(".bi-wrapper");        
     }
     
     this.resetBlockVisibility = function(){
