@@ -199,3 +199,7 @@
 
 /*** hide cms search***/
 #header-right{visibility:hidden;}
+
+
+/****** hiding "search within" filter for now. Not enough content to need it and may cause unnecessary confusion *******/
+#filterSelect {display:none;}
