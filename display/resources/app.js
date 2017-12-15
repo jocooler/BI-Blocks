@@ -298,7 +298,7 @@ var Block = (function (params){
 
 	Block.prototype.preventImageCache = function (){
 		var d = new Date()
-        this.query += "?r=" + d.getTime();
+        this.query += "?r=" + d.getMonth().toString() + d.getDay().toString(); // so cache will change everyday.
     };
 	
     Block.prototype.setTags = function (){
