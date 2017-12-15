@@ -288,6 +288,7 @@ var Block = (function (params){
     }
     
     Block.prototype.init = function (){
+		this.preventImageCache();
         this.setTags();
         this.buildSearchableText();
         this.create();
@@ -295,6 +296,11 @@ var Block = (function (params){
 		this.events();
     };
 
+	Block.prototype.preventImageCache = function (){
+		var d = new Date()
+        this.query += "?r=" + d.getTime();
+    };
+	
     Block.prototype.setTags = function (){
         $.each(this.tagSet, $.proxy(function (i, tag) {				            
             if (tag.tag in tagIcons){                 
