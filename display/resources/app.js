@@ -237,7 +237,7 @@ function Vtp(v) {
         '	<button class="btn btn-sm btn-info">Maintenance</button>'+
         '	<button class="btn btn-sm btn-info">Rail</button>'+
 		'	<button class="btn btn-sm btn-info">Travel</button>'+
-        '	<button class="btn btn-sm btn-danger clear">Reset All Filters</button>'+
+        '	<button class="btn btn-sm btn-danger clear">Reset Filters</button>'+
         '</div>'+
         '</div>';
         $(html).prependTo(".bi-wrapper");        
