@@ -4,7 +4,7 @@ var Settings = {
     apiPath : "https://vtransapi.aot.state.vt.us/api/v2/",
     apiKey : "d1b885b8d202ab320717b54d9265e360db151e69be811f38da2f24fdd09333a5",
     textVersionPath : "http://www.aot.state.vt.us/vtpplain/plain.aspx",
-    vtpPath : "/content/vtp",
+    vtpPath : "/vtransparency",
     vtpView : "Demo View 1"
 };
 
